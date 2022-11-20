@@ -19,14 +19,20 @@
             android:title="@string/menu_search" />
     </group>
 
-    <item android:title="Settings">
+    <item android:title="Community">
         <menu>
             <item
-                android:id="@+id/switch_theme"
-                android:title="Bright or dark theme"
-                android:icon="@drawable/ic_menu_switch_bright"
-                app:actionLayout="@layout/switch_item"
-                app:showAsAction="always" />
+                android:id="@+id/nav_com_forum"
+                android:icon="@drawable/ic_people"
+                android:title="@string/menu_com_forum" />
+            <item
+                android:id="@+id/nav_com_invite"
+                android:icon="@drawable/ic_person_add"
+                android:title="@string/menu_com_person_add" />
+            <item
+                android:id="@+id/nav_com_links"
+                android:icon="@drawable/ic_link"
+                android:title="@string/menu_com_links" />
         </menu>
     </item>
 </menu>
