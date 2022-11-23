@@ -11,7 +11,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.example.animeteka.databinding.ActivityMainBinding
+import com.example.animeteka.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
