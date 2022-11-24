@@ -13,4 +13,13 @@
     <string name="menu_com_forum">Forum</string>
     <string name="menu_com_person_add">Invite a person</string>
     <string name="menu_com_links">Helpful links</string>
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="menu_settings_appearance">Appearance of the application</string>
+    <string name="menu_settings_switcher_title">Theme of the application</string>
+    <string name="menu_settings_switcher_summary">Choosing an application theme</string>
+    <string name="menu_settings_switcher_hint">Dark theme</string>
+    <string name="menu_settings_import_setting_title">System display settings</string>
+    <string name="menu_settings_import_setting_summary">Display settings of your phone</string>
+
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/menu_settings_appearance">
+        <ListPreference
+            android:key="application_theme"
+            android:title="@string/menu_settings_switcher_title"
+            android:summary="@string/menu_settings_switcher_summary"
+            android:showDefault="true"
+            android:icon="@drawable/ic_application_theme"
+            android:entries="@array/settings_list_preference_titles"
+            android:entryValues="@array/settings_list_preference_titles"
+            android:defaultValue="Bright"
+            android:dialogTitle="@string/menu_settings_switcher_hint">
+        </ListPreference>
+        <PreferenceScreen
+            android:title="@string/menu_settings_import_setting_title"
+            android:summary="@string/menu_settings_import_setting_summary"
+            android:icon="@drawable/ic_display_settings">
+            <intent android:action="android.settings.DISPLAY_SETTINGS" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>
