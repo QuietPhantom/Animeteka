@@ -78,10 +78,8 @@ class HomeFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<RetrofitApiCallbackEntity>, response: Response<RetrofitApiCallbackEntity>) {
-
                 adapter = TitlesAdapter(response.body()!!)
                 recyclerView.adapter = adapter
-
                 dialog.dismiss()
             }
         })

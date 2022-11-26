@@ -1,13 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.element.ElementFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:id="@+id/enTitleName"
+        android:layout_width="253dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="52dp"
+        android:text="enTitleName"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleImage" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/Rating"
+        android:layout_width="73dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Rating"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/Dates"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/Dates"
+        android:layout_width="247dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="28dp"
+        android:text="Dates"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.286"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enTitleName" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="81dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="ageRating"
+        android:textSize="18dp"
+        app:layout_constraintStart_toEndOf="@+id/enTitleName"
+        app:layout_constraintTop_toBottomOf="@+id/TitleName" />
+
+    <TextView
+        android:id="@+id/Count"
+        android:layout_width="248dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="8dp"
+        android:text="Count"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Dates" />
+
+    <TextView
+        android:id="@+id/StatusAndType"
+        android:layout_width="245dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:text="StatusAndType"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Count" />
+
+    <TextView
+        android:id="@+id/TitleName"
+        android:layout_width="336dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="16dp"
+        android:text="TitleName"
+        android:textSize="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.653"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleImage" />
+
+    <ImageView
+        android:id="@+id/titleImage"
+        android:layout_width="164dp"
+        android:layout_height="231dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fullDescription"
+        android:layout_width="352dp"
+        android:layout_height="223dp"
+        android:layout_marginTop="20dp"
+        android:text="Description"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StatusAndType" />
+</androidx.constraintlayout.widget.ConstraintLayout>

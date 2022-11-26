@@ -11,7 +11,7 @@ data class RetrofitApiDataEntity(
 
 data class AttributesEntity(
     val canonicalTitle: String,
-    val titles: TitleEntity,
+    val titles: TitlesEntity,
     val description: String,
     val posterImage: ImageUrls,
     val averageRating: String,
@@ -35,6 +35,6 @@ data class ImageUrls(
     val original: String
 )
 
-data class TitleEntity(
+data class TitlesEntity(
     val en: String
 )
