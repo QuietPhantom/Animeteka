@@ -92,6 +92,7 @@ class HomeFragment : Fragment() {
         class TitlesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.name)
             val description: TextView = itemView.findViewById(R.id.description)
+            val subDescription: TextView = itemView.findViewById(R.id.subDescription)
             val image: ImageView = itemView.findViewById(R.id.image)
         }
 
@@ -105,6 +106,7 @@ class HomeFragment : Fragment() {
         override fun onBindViewHolder(holder: TitlesViewHolder, position: Int) {
             holder.title.text = titles.data[position].attributes.canonicalTitle
             holder.description.text = titles.data[position].attributes.description
+            holder.subDescription.text = titles.data[position].attributes.startDate.substringBefore('-') + " | " + titles.data[position].attributes.averageRating + " | " + titles.data[position].attributes.status + " | " + titles.data[position].attributes.subtype
             Picasso.get().load(titles.data[position].attributes.posterImage.small).into(holder.image)
         }
 
