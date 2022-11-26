@@ -12,25 +12,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animeteka.R
-import com.example.animeteka.common.Common
 import com.example.animeteka.databinding.FragmentHomeBinding
 import com.example.animeteka.entities.RetrofitApiCallbackEntity
-import com.example.animeteka.retrofit.RetrofitServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-
-    private lateinit var adapter: TitlesAdapter
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var recyclerView: RecyclerView
-
-    private lateinit var retrofitService: RetrofitServices
     private lateinit var dialog: AlertDialog
 
     // This property is only valid between onCreateView and
@@ -42,7 +34,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
+        homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -54,35 +46,25 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        retrofitService = Common.retrofitService
-
+        homeViewModel.initApi()
         recyclerView = view.findViewById(R.id.titles_list)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
         dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
-
-        getNewAnimeTitlesList()
+        dialog.show()
+        homeViewModel.getNewAnimeTitlesList()
+        homeViewModel.livedata.observe(viewLifecycleOwner){
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = TitlesAdapter(it)
+        }
+        dialog.dismiss()
 
         view.findViewById<FloatingActionButton>(R.id.updateTitleList).setOnClickListener{
-            getNewAnimeTitlesList()
+            dialog.show()
+            homeViewModel.getNewAnimeTitlesList()
+            homeViewModel.livedata.observe(viewLifecycleOwner){
+                recyclerView.adapter = TitlesAdapter(it)
+            }
+            dialog.dismiss()
         }
-    }
-
-    private fun getNewAnimeTitlesList() {
-        dialog.show()
-        retrofitService.getAnimeTitlesList((0..10000).random().toString()).enqueue(object: Callback<RetrofitApiCallbackEntity> {
-
-            override fun onFailure(call: Call<RetrofitApiCallbackEntity>, t: Throwable) {
-                t.printStackTrace()
-                dialog.dismiss()
-            }
-
-            override fun onResponse(call: Call<RetrofitApiCallbackEntity>, response: Response<RetrofitApiCallbackEntity>) {
-                adapter = TitlesAdapter(response.body()!!)
-                recyclerView.adapter = adapter
-                dialog.dismiss()
-            }
-        })
     }
 
     class TitlesAdapter(private val titles: RetrofitApiCallbackEntity): RecyclerView.Adapter<TitlesAdapter.TitlesViewHolder> (){
