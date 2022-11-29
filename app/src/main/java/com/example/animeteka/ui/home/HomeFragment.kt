@@ -1,22 +1,24 @@
 package com.example.animeteka.ui.home
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animeteka.R
 import com.example.animeteka.databinding.FragmentHomeBinding
-import com.example.animeteka.entities.RetrofitApiCallbackEntity
+import com.example.animeteka.entities.RetrofitApiCallbackEntities
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
+
 
 class HomeFragment : Fragment() {
 
@@ -53,7 +55,14 @@ class HomeFragment : Fragment() {
         homeViewModel.getNewAnimeTitlesList()
         homeViewModel.livedata.observe(viewLifecycleOwner){
             recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = TitlesAdapter(it)
+            recyclerView.adapter = TitlesAdapter(it,
+                object : OnRecycleViewListener {
+                    override fun onViewClick(titleId: Int) {
+                        val bundle = Bundle()
+                        bundle.putInt("titleId", titleId)
+                        view.findNavController().navigate(R.id.action_nav_home_to_elementFragment, bundle)
+                    }
+                })
         }
         dialog.dismiss()
 
@@ -61,13 +70,20 @@ class HomeFragment : Fragment() {
             dialog.show()
             homeViewModel.getNewAnimeTitlesList()
             homeViewModel.livedata.observe(viewLifecycleOwner){
-                recyclerView.adapter = TitlesAdapter(it)
+                recyclerView.adapter = TitlesAdapter(it,
+                    object : OnRecycleViewListener {
+                        override fun onViewClick(titleId: Int) {
+                            val bundle = Bundle()
+                            bundle.putInt("titleId", titleId)
+                            view.findNavController().navigate(R.id.action_nav_home_to_elementFragment, bundle)
+                        }
+                    })
             }
             dialog.dismiss()
         }
     }
 
-    class TitlesAdapter(private val titles: RetrofitApiCallbackEntity): RecyclerView.Adapter<TitlesAdapter.TitlesViewHolder> (){
+    class TitlesAdapter(private val titles: RetrofitApiCallbackEntities, private val listener: OnRecycleViewListener): RecyclerView.Adapter<TitlesAdapter.TitlesViewHolder> (){
 
         class TitlesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.name)
@@ -88,17 +104,22 @@ class HomeFragment : Fragment() {
             holder.description.text = titles.data[position].attributes.description
             holder.subDescription.text = titles.data[position].attributes.startDate.substringBefore('-') + " | " + titles.data[position].attributes.averageRating + " | " + titles.data[position].attributes.status + " | " + titles.data[position].attributes.subtype
             Picasso.get().load(titles.data[position].attributes.posterImage.small).into(holder.image)
+            holder.itemView.setOnClickListener {
+                listener.onViewClick(titles.data[position].id)
+            }
         }
 
         override fun getItemCount(): Int {
             return titles.data.size
         }
+    }
 
+    interface OnRecycleViewListener {
+        fun onViewClick(titleId: Int)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }

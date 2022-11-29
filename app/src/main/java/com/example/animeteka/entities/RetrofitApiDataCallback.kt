@@ -1,7 +1,11 @@
 package com.example.animeteka.entities
 
-data class RetrofitApiCallbackEntity(
+data class RetrofitApiCallbackEntities(
     val data: List<RetrofitApiDataEntity>
+)
+
+data class RetrofitApiCallbackEntity(
+    val data: RetrofitApiDataEntity
 )
 
 data class RetrofitApiDataEntity(

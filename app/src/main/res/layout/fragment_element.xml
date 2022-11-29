@@ -11,7 +11,6 @@
         android:layout_width="253dp"
         android:layout_height="33dp"
         android:layout_marginTop="52dp"
-        android:text="enTitleName"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.31"
@@ -23,20 +22,18 @@
         android:layout_width="73dp"
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="Rating"
+        android:layout_marginTop="28dp"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/Dates"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/ageRating" />
 
     <TextView
         android:id="@+id/Dates"
         android:layout_width="247dp"
         android:layout_height="30dp"
         android:layout_marginTop="28dp"
-        android:text="Dates"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.286"
@@ -44,12 +41,11 @@
         app:layout_constraintTop_toBottomOf="@+id/enTitleName" />
 
     <TextView
-        android:id="@+id/textView8"
-        android:layout_width="81dp"
-        android:layout_height="32dp"
+        android:id="@+id/ageRating"
+        android:layout_width="94dp"
+        android:layout_height="104dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:text="ageRating"
         android:textSize="18dp"
         app:layout_constraintStart_toEndOf="@+id/enTitleName"
         app:layout_constraintTop_toBottomOf="@+id/TitleName" />
@@ -59,7 +55,6 @@
         android:layout_width="248dp"
         android:layout_height="31dp"
         android:layout_marginTop="8dp"
-        android:text="Count"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.3"
@@ -71,7 +66,6 @@
         android:layout_width="245dp"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
-        android:text="StatusAndType"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.295"
@@ -83,7 +77,6 @@
         android:layout_width="336dp"
         android:layout_height="31dp"
         android:layout_marginTop="16dp"
-        android:text="TitleName"
         android:textSize="22dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.653"
@@ -102,13 +95,24 @@
 
     <TextView
         android:id="@+id/fullDescription"
-        android:layout_width="352dp"
-        android:layout_height="223dp"
-        android:layout_marginTop="20dp"
-        android:text="Description"
+        android:layout_width="365dp"
+        android:layout_height="226dp"
+        android:layout_marginTop="10dp"
+        android:scrollbars="vertical"
         android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StatusAndType" />
+        app:layout_constraintTop_toBottomOf="@+id/StatusAndType"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,7 @@ package com.example.animeteka.ui.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.animeteka.common.Common
-import com.example.animeteka.entities.RetrofitApiCallbackEntity
+import com.example.animeteka.entities.RetrofitApiCallbackEntities
 import com.example.animeteka.retrofit.RetrofitServices
 import retrofit2.Call
 import retrofit2.Callback
@@ -13,7 +13,7 @@ class HomeViewModel : ViewModel() {
 
     private lateinit var retrofitService: RetrofitServices
 
-    val livedata = MutableLiveData<RetrofitApiCallbackEntity>()
+    val livedata = MutableLiveData<RetrofitApiCallbackEntities>()
 
     fun initApi(){
         retrofitService = Common.retrofitService
@@ -21,13 +21,13 @@ class HomeViewModel : ViewModel() {
 
     fun getNewAnimeTitlesList() {
         retrofitService.getAnimeTitlesList((0..10000).random().toString()).enqueue(object:
-            Callback<RetrofitApiCallbackEntity> {
+            Callback<RetrofitApiCallbackEntities> {
 
-            override fun onFailure(call: Call<RetrofitApiCallbackEntity>, t: Throwable) {
+            override fun onFailure(call: Call<RetrofitApiCallbackEntities>, t: Throwable) {
                 t.printStackTrace()
             }
 
-            override fun onResponse(call: Call<RetrofitApiCallbackEntity>, response: Response<RetrofitApiCallbackEntity>) {
+            override fun onResponse(call: Call<RetrofitApiCallbackEntities>, response: Response<RetrofitApiCallbackEntities>) {
                 livedata.postValue(response.body()!!)
             }
         })

@@ -10,6 +10,7 @@
     <string name="menu_home">Titles page</string>
     <string name="menu_bookmarks">Bookmarked titles</string>
     <string name="menu_search">Search titles</string>
+    <string name="title_fragment_label">Title page</string>
     <string name="menu_com_forum">Forum</string>
     <string name="menu_com_person_add">Invite a person</string>
     <string name="menu_com_links">Helpful links</string>
