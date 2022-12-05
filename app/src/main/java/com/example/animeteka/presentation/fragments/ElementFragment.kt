@@ -1,4 +1,4 @@
-package com.example.animeteka.ui.element
+package com.example.animeteka.presentation.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.animeteka.R
+import com.example.animeteka.presentation.viewmodels.ElementViewModel
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
 

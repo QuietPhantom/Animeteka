@@ -1,4 +1,4 @@
-package com.example.animeteka.common
+package com.example.animeteka.retrofit.common
 
 import com.example.animeteka.retrofit.RetrofitServices
 import com.example.animeteka.retrofit.RetrofitClient

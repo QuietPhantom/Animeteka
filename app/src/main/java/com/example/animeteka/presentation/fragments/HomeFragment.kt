@@ -1,4 +1,4 @@
-package com.example.animeteka.ui.home
+package com.example.animeteka.presentation.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animeteka.R
 import com.example.animeteka.databinding.FragmentHomeBinding
-import com.example.animeteka.entities.RetrofitApiCallbackEntities
+import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntities
+import com.example.animeteka.presentation.viewmodels.HomeViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
@@ -49,7 +50,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel.initApi()
-        recyclerView = view.findViewById(R.id.titles_list)
+        recyclerView = view.findViewById<RecyclerView>(R.id.titles_list)
         dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
         dialog.show()
         homeViewModel.getNewAnimeTitlesList()

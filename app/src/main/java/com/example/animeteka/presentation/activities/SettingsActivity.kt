@@ -1,10 +1,9 @@
-package com.example.animeteka
+package com.example.animeteka.presentation.activities
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import com.example.animeteka.R
 
 class SettingsActivity : AppCompatActivity() {
 

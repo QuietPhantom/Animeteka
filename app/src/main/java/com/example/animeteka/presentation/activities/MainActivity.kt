@@ -1,4 +1,4 @@
-package com.example.animeteka
+package com.example.animeteka.presentation.activities
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
+import com.example.animeteka.R
 import com.example.animeteka.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
