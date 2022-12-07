@@ -2,6 +2,9 @@ package com.example.animeteka.presentation.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.animeteka.businesslogic.entities.TitleEntity
+import com.example.animeteka.businesslogic.usecases.IUseCase
+import com.example.animeteka.data.Application
 import com.example.animeteka.retrofit.common.Common
 import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntity
 import com.example.animeteka.retrofit.RetrofitServices
@@ -11,11 +14,13 @@ import retrofit2.Response
 
 class ElementViewModel : ViewModel() {
     private lateinit var retrofitService: RetrofitServices
+    private lateinit var UseCase : IUseCase
 
     val livedata = MutableLiveData<RetrofitApiCallbackEntity>()
 
-    fun initApi(){
+    fun initApi(application: Application){
         retrofitService = Common.retrofitService
+        UseCase = application.getUseCase()
     }
 
     fun getAnimeTitleById(titleId: Int) {
@@ -29,5 +34,13 @@ class ElementViewModel : ViewModel() {
                 livedata.postValue(response.body()!!)
             }
         })
+    }
+
+    suspend fun saveTitle(title: TitleEntity){
+        UseCase.saveTitle(title)
+    }
+
+    suspend fun deleteTitle(title: TitleEntity){
+        UseCase.deleteTitle(title)
     }
 }

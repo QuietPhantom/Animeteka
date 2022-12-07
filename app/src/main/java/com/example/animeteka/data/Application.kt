@@ -7,7 +7,7 @@ import com.example.animeteka.businesslogic.usecases.IUseCase
 import com.example.animeteka.data.database.TitleDatabase
 import com.example.animeteka.data.repositories.TitleRepository
 
-class NoteApplication : Application() {
+class Application : Application() {
 
     private lateinit var database : TitleDatabase
 

@@ -1,5 +1,7 @@
 package com.example.animeteka.retrofit.entities
 
+import com.example.animeteka.businesslogic.entities.TitleEntity
+
 data class RetrofitApiCallbackEntities(
     val data: List<RetrofitApiDataEntity>
 )
