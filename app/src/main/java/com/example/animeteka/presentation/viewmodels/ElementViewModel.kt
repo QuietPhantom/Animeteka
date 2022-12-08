@@ -1,7 +1,9 @@
 package com.example.animeteka.presentation.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import com.example.animeteka.businesslogic.entities.TitleEntity
 import com.example.animeteka.businesslogic.usecases.IUseCase
 import com.example.animeteka.data.Application
@@ -42,5 +44,13 @@ class ElementViewModel : ViewModel() {
 
     suspend fun deleteTitle(title: TitleEntity){
         UseCase.deleteTitle(title)
+    }
+
+    fun getTitleById(id: Int): LiveData<TitleEntity> = liveData {
+        emit(UseCase.getTitleById(id))
+    }
+
+    fun getCountTitleById(id: Int): LiveData<Int> = liveData {
+        emit(UseCase.getCountTitleById(id))
     }
 }

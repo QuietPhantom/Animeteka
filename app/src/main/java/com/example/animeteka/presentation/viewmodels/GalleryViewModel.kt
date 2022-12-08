@@ -15,9 +15,7 @@ class GalleryViewModel : ViewModel() {
         UseCase = application.getUseCase()
     }
 
-    fun getTitles(): LiveData<List<TitleEntity>> =
-        liveData {
+    fun getTitles(): LiveData<List<TitleEntity>> = liveData {
             emit(UseCase.getAllTitles())
-        }
-
+    }
 }

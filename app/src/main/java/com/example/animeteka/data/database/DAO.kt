@@ -14,6 +14,9 @@ interface DAO {
     @Query("Select * From title Where id = :id")
     suspend fun getTitleById(id: Int) : Title
 
+    @Query("Select count(*) From title Where id = :id")
+    suspend fun getCountTitleById(id: Int) : Int
+
     @Insert
     suspend fun saveTitle(title: Title)
 

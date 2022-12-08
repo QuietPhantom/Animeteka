@@ -14,6 +14,10 @@ class TitleRepository(private val DAO: DAO) : ITitleRepository {
         return DAO.getTitleById(id).toTitleEntity()
     }
 
+    override suspend fun getCountTitleById(id: Int): Int {
+        return DAO.getCountTitleById(id)
+    }
+
     override suspend fun saveTitle(title: TitleEntity) {
         DAO.saveTitle(title.toTitle())
     }

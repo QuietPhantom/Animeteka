@@ -10,6 +10,9 @@ class UseCase (private val titleRepository: ITitleRepository) : IUseCase {
     override suspend fun getTitleById(id: Int): TitleEntity
             = titleRepository.getTitleById(id)
 
+    override suspend fun getCountTitleById(id: Int): Int
+            = titleRepository.getCountTitleById(id)
+
     override suspend fun saveTitle(title: TitleEntity)
             = titleRepository.saveTitle(title)
 

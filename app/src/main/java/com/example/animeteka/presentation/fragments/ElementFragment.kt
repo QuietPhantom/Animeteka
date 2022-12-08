@@ -2,6 +2,7 @@ package com.example.animeteka.presentation.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -32,54 +33,101 @@ class ElementFragment : Fragment() {
     private lateinit var dialog: AlertDialog
     private lateinit var elementViewModel: ElementViewModel
     private lateinit var titleInf: TitleEntity
+    private var titleId: Int = 1
+    private lateinit var TitleName: TextView
+    private lateinit var enTitleName: TextView
+    private lateinit var Dates: TextView
+    private lateinit var Rating: TextView
+    private lateinit var AgeRating: TextView
+    private lateinit var Count: TextView
+    private lateinit var StatusAndType: TextView
+    private lateinit var FullDescription: TextView
+    private lateinit var TitleImage: ImageView
+    private lateinit var AddTitle: Button
+    private lateinit var DeleteTitle: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         elementViewModel = ViewModelProvider(this).get(ElementViewModel::class.java)
+        titleId = requireArguments().getInt("titleId")
         return inflater.inflate(R.layout.fragment_element, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        TitleName = view.findViewById(R.id.TitleName)
+        enTitleName = view.findViewById(R.id.enTitleName)
+        Dates = view.findViewById(R.id.Dates)
+        Rating = view.findViewById(R.id.Rating)
+        AgeRating = view.findViewById(R.id.ageRating)
+        Count = view.findViewById(R.id.Count)
+        StatusAndType = view.findViewById(R.id.StatusAndType)
+        FullDescription = view.findViewById(R.id.fullDescription)
+        FullDescription.movementMethod = ScrollingMovementMethod()
+        TitleImage = view.findViewById(R.id.titleImage)
+        AddTitle = view.findViewById(R.id.addTitle)
+        DeleteTitle = view.findViewById(R.id.deleteTitle)
+
         elementViewModel.initApi(requireActivity().application as Application)
         dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
         dialog.show()
-        elementViewModel.getAnimeTitleById(requireArguments().getInt("titleId"))
-        elementViewModel.livedata.observe(viewLifecycleOwner){
-            Picasso.get().load(it.data.attributes.posterImage.original).into(view.findViewById<ImageView>(R.id.titleImage))
-            view.findViewById<TextView>(R.id.TitleName).text = it.data.attributes.canonicalTitle
-            view.findViewById<TextView>(R.id.enTitleName).text = it.data.attributes.titles.en
-            view.findViewById<TextView>(R.id.Dates).text = it.data.attributes.startDate + " - " + it.data.attributes.endDate
-            view.findViewById<TextView>(R.id.Rating).text = it.data.attributes.averageRating + " / " + it.data.attributes.userCount
-            view.findViewById<TextView>(R.id.ageRating).text = it.data.attributes.ageRating + " (" +  it.data.attributes.ageRatingGuide + ")"
-            view.findViewById<TextView>(R.id.Count).text = it.data.attributes.episodeCount + " / " + it.data.attributes.episodeLength + " / " + it.data.attributes.totalLength
-            view.findViewById<TextView>(R.id.StatusAndType).text = it.data.attributes.subtype + " | " + it.data.attributes.status
-            view.findViewById<TextView>(R.id.fullDescription).text = it.data.attributes.description
-            view.findViewById<TextView>(R.id.fullDescription).movementMethod =
-                ScrollingMovementMethod()
-            try{
-                titleInf = TitleEntity(requireArguments().getInt("titleId"),it.data.attributes.canonicalTitle,it.data.attributes.titles.en,it.data.attributes.description,it.data.attributes.posterImage.original,it.data.attributes.averageRating,it.data.attributes.userCount,it.data.attributes.startDate,it.data.attributes.endDate,it.data.attributes.ageRating,it.data.attributes.ageRatingGuide,it.data.attributes.subtype,it.data.attributes.status,it.data.attributes.episodeCount,it.data.attributes.episodeLength,it.data.attributes.totalLength)
-            }catch (e: NullPointerException){
-                dialog.dismiss()
-                view.findNavController().popBackStack()
+        
+        elementViewModel.getCountTitleById(titleId).observe(viewLifecycleOwner){
+            if(it == 1){
+                elementViewModel.getTitleById(titleId).observe(viewLifecycleOwner){ it ->
+                    Picasso.get().load(it.posterImage).into(TitleImage)
+                    TitleName.text = it.canonicalTitle
+                    enTitleName.text = it.enTitle
+                    Dates.text = it.startDate + " - " + it.endDate
+                    Rating.text = it.averageRating + " / " + it.userCount
+                    AgeRating.text = it.ageRating + " (" +  it.ageRatingGuide + ")"
+                    Count.text = it.episodeCount + " / " + it.episodeLength + " / " + it.totalLength
+                    StatusAndType.text = it.subtype + " | " + it.status
+                    FullDescription.text = it.description
+                    titleInf = it
+                }
+                AddTitle.isEnabled = false
+            } else {
+                elementViewModel.getAnimeTitleById(titleId)
+                elementViewModel.livedata.observe(viewLifecycleOwner){ it ->
+                    Picasso.get().load(it.data.attributes.posterImage.original).into(TitleImage)
+                    TitleName.text = it.data.attributes.canonicalTitle
+                    enTitleName.text = it.data.attributes.titles.en
+                    Dates.text = it.data.attributes.startDate + " - " + it.data.attributes.endDate
+                    Rating.text = it.data.attributes.averageRating + " / " + it.data.attributes.userCount
+                    AgeRating.text = it.data.attributes.ageRating + " (" +  it.data.attributes.ageRatingGuide + ")"
+                    Count.text = it.data.attributes.episodeCount + " / " + it.data.attributes.episodeLength + " / " + it.data.attributes.totalLength
+                    StatusAndType.text = it.data.attributes.subtype + " | " + it.data.attributes.status
+                    FullDescription.text = it.data.attributes.description
+                    try{
+                        titleInf = TitleEntity(titleId,it.data.attributes.canonicalTitle,it.data.attributes.titles.en,it.data.attributes.description,it.data.attributes.posterImage.original,it.data.attributes.averageRating,it.data.attributes.userCount,it.data.attributes.startDate,it.data.attributes.endDate,it.data.attributes.ageRating,it.data.attributes.ageRatingGuide,it.data.attributes.subtype,it.data.attributes.status,it.data.attributes.episodeCount,it.data.attributes.episodeLength,it.data.attributes.totalLength)
+                    }catch (e: NullPointerException){
+                        dialog.dismiss()
+                        view.findNavController().popBackStack()
+                    }
+                }
+                DeleteTitle.isEnabled = false
             }
-
         }
         dialog.dismiss()
 
-        view.findViewById<Button>(R.id.addTitle).setOnClickListener {
+        AddTitle.setOnClickListener {
             elementViewModel.viewModelScope.launch {
                 elementViewModel.saveTitle(titleInf)
                 Toast.makeText(context, resources.getString(R.string.title_added), Toast.LENGTH_SHORT).show()
+                AddTitle.isEnabled = false
+                DeleteTitle.isEnabled = true
             }
         }
 
-        view.findViewById<Button>(R.id.deleteTitle).setOnClickListener {
+        DeleteTitle.setOnClickListener {
             elementViewModel.viewModelScope.launch {
                 elementViewModel.deleteTitle(titleInf)
                 Toast.makeText(context, resources.getString(R.string.title_deleted), Toast.LENGTH_SHORT).show()
+                DeleteTitle.isEnabled = false
+                AddTitle.isEnabled = true
             }
         }
     }
