@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animeteka.R
 import com.example.animeteka.businesslogic.entities.TitleEntity
@@ -24,6 +22,9 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private lateinit var galleryViewModel: GalleryViewModel
     private lateinit var gridRecyclerView: RecyclerView
+    private lateinit var searchBar: SearchView
+    private lateinit var gridAdapter: GridTitlesAdapter
+    private lateinit var titlesList: List<TitleEntity>
 
     private val binding get() = _binding!!
 
@@ -35,7 +36,6 @@ class GalleryFragment : Fragment() {
         galleryViewModel =
             ViewModelProvider(this).get(GalleryViewModel::class.java)
         galleryViewModel.init(requireActivity().application as Application)
-
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -44,11 +44,15 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        gridRecyclerView = view.findViewById(R.id.grid_titles_list)
+        searchBar = view.findViewById(R.id.search_bar)
+
         galleryViewModel.getTitles().observe(viewLifecycleOwner) {
-            gridRecyclerView = view.findViewById(R.id.grid_titles_list)
+            titlesList = it
             gridRecyclerView.layoutManager = GridLayoutManager(view.context, 2)
-            gridRecyclerView.adapter =
-                GridTitlesAdapter(it,
+            gridAdapter =
+                GridTitlesAdapter(titlesList,
                     object : GridTitlesAdapter.OnGridRecycleViewListener {
                         override fun onViewClick(titleId: Int) {
                             val bundle = Bundle()
@@ -56,10 +60,25 @@ class GalleryFragment : Fragment() {
                             view.findNavController().navigate(R.id.action_nav_gallery_to_elementFragment, bundle)
                         }
                     })
+            gridRecyclerView.adapter = gridAdapter
+
+            searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    gridAdapter!!.filter.filter(query)
+                    return false
+                }
+
+                override fun onQueryTextChange(query: String?): Boolean {
+                    gridAdapter!!.filter.filter(query)
+                    return false
+                }
+            })
         }
     }
 
-    class GridTitlesAdapter(private val titlesList: List<TitleEntity>, private val listener: OnGridRecycleViewListener): RecyclerView.Adapter<GridTitlesAdapter.GridTitlesViewHolder> (){
+    class GridTitlesAdapter(private val titlesList: List<TitleEntity>, private val listener: OnGridRecycleViewListener): RecyclerView.Adapter<GridTitlesAdapter.GridTitlesViewHolder>(), Filterable{
+
+        private var titlesListSearch: List<TitleEntity> = this.titlesList
 
         class GridTitlesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             val titleName: TextView = itemView.findViewById(R.id.titleNameCardView)
@@ -75,19 +94,44 @@ class GalleryFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: GridTitlesViewHolder, position: Int) {
-            holder.titleName.text = titlesList[position].canonicalTitle
-            Picasso.get().load(titlesList[position].posterImage).into(holder.titleImage)
+            holder.titleName.text = titlesListSearch[position].canonicalTitle
+            Picasso.get().load(titlesListSearch[position].posterImage).into(holder.titleImage)
             holder.itemView.setOnClickListener {
-                listener.onViewClick(titlesList[position].id)
+                listener.onViewClick(titlesListSearch[position].id)
             }
         }
 
         override fun getItemCount(): Int {
-            return titlesList.size
+            return titlesListSearch.size
         }
 
         interface OnGridRecycleViewListener {
             fun onViewClick(titleId: Int)
+        }
+
+        override fun getFilter(): Filter {
+            return object : Filter(){
+                override fun performFiltering(searchChars: CharSequence?): FilterResults {
+                    val searchString = searchChars.toString()
+                    if(searchString.isEmpty()){
+                        titlesListSearch = titlesList
+                    } else {
+                        val resultList: MutableList<TitleEntity> = mutableListOf()
+                        for (row in titlesList){
+                            if (row.canonicalTitle.lowercase().contains(searchString.lowercase())) resultList.add(row)
+                        }
+                        titlesListSearch = resultList
+                    }
+                    val filterResults = Filter.FilterResults()
+                    filterResults.values = titlesListSearch
+                    return filterResults
+                }
+
+                override fun publishResults(charSequence: CharSequence?, filterResult: FilterResults?) {
+                    titlesListSearch = filterResult!!.values as List<TitleEntity>
+                    notifyDataSetChanged()
+                }
+            }
         }
 
     }

@@ -29,4 +29,6 @@
     <string name="title_added">Title added</string>
     <string name="title_deleted">Title deleted</string>
 
+    <string name="search_bar_hint">Search saved title by name...</string>
+
 </resources>

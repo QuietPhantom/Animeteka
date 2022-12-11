@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -16,7 +17,6 @@ import com.example.animeteka.R
 import com.example.animeteka.databinding.FragmentHomeBinding
 import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntities
 import com.example.animeteka.presentation.viewmodels.HomeViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
 
@@ -27,9 +27,8 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var dialog: AlertDialog
+    private lateinit var updateButton: FloatingActionButton
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -39,7 +38,6 @@ class HomeFragment : Fragment() {
     ): View {
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -49,8 +47,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recyclerView = view.findViewById(R.id.titles_list)
+        updateButton = view.findViewById(R.id.updateTitleList)
         homeViewModel.initApi()
-        recyclerView = view.findViewById<RecyclerView>(R.id.titles_list)
         dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
         dialog.show()
         homeViewModel.getNewAnimeTitlesList()
@@ -67,7 +66,7 @@ class HomeFragment : Fragment() {
         }
         dialog.dismiss()
 
-        view.findViewById<FloatingActionButton>(R.id.updateTitleList).setOnClickListener{
+        updateButton.setOnClickListener{
             dialog.show()
             homeViewModel.getNewAnimeTitlesList()
             homeViewModel.livedata.observe(viewLifecycleOwner){
