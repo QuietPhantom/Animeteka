@@ -23,8 +23,11 @@
     <string name="menu_settings_import_setting_title">System display settings</string>
     <string name="menu_settings_import_setting_summary">Display settings of your phone</string>
 
-    <string name="button_title_add">Add</string>
-    <string name="button_title_delete">Delete</string>
+    <string name="button_title_add">➕</string>
+    <string name="button_title_delete">➖</string>
+
+    <string name="button_title_added">✓</string>
+    <string name="button_title_deleted">✖</string>
 
     <string name="title_added">Title added</string>
     <string name="title_deleted">Title deleted</string>

@@ -2,6 +2,7 @@ package com.example.animeteka.presentation.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,8 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var dialog: AlertDialog
     private lateinit var updateButton: FloatingActionButton
-
+    private var random: Int = -1
+    private var state: Parcelable? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -40,19 +42,26 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        if(savedInstanceState != null){
+            random = savedInstanceState.getInt("random")
+            state = savedInstanceState.getParcelable("state")
+        }
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if(random == -1){
+            random = (0..10000).random()
+        }
+
         recyclerView = view.findViewById(R.id.titles_list)
         updateButton = view.findViewById(R.id.updateTitleList)
         homeViewModel.initApi()
         dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
         dialog.show()
-        homeViewModel.getNewAnimeTitlesList()
+        homeViewModel.getNewAnimeTitlesList(random)
         homeViewModel.livedata.observe(viewLifecycleOwner){
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = TitlesAdapter(it,
@@ -63,12 +72,16 @@ class HomeFragment : Fragment() {
                         view.findNavController().navigate(R.id.action_nav_home_to_elementFragment, bundle)
                     }
                 })
+            if(state != null){
+                recyclerView.layoutManager?.onRestoreInstanceState(state)
+            }
         }
         dialog.dismiss()
 
         updateButton.setOnClickListener{
             dialog.show()
-            homeViewModel.getNewAnimeTitlesList()
+            random = (0..10000).random()
+            homeViewModel.getNewAnimeTitlesList(random)
             homeViewModel.livedata.observe(viewLifecycleOwner){
                 recyclerView.adapter = TitlesAdapter(it,
                     object : OnRecycleViewListener {
@@ -118,8 +131,16 @@ class HomeFragment : Fragment() {
         fun onViewClick(titleId: Int)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        state = recyclerView.layoutManager?.onSaveInstanceState()
+        outState.putInt("random", random)
+        outState.putParcelable("state", state)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        state = recyclerView.layoutManager?.onSaveInstanceState()
         _binding = null
     }
 }

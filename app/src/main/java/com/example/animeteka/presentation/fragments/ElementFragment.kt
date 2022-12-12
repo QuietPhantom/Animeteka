@@ -118,6 +118,8 @@ class ElementFragment : Fragment() {
                 Toast.makeText(context, resources.getString(R.string.title_added), Toast.LENGTH_SHORT).show()
                 AddTitle.isEnabled = false
                 DeleteTitle.isEnabled = true
+                AddTitle.text = resources.getString(R.string.button_title_added)
+                DeleteTitle.text = resources.getString(R.string.button_title_delete)
             }
         }
 
@@ -127,6 +129,8 @@ class ElementFragment : Fragment() {
                 Toast.makeText(context, resources.getString(R.string.title_deleted), Toast.LENGTH_SHORT).show()
                 DeleteTitle.isEnabled = false
                 AddTitle.isEnabled = true
+                DeleteTitle.text = resources.getString(R.string.button_title_deleted)
+                AddTitle.text = resources.getString(R.string.button_title_add)
             }
         }
     }
