@@ -19,9 +19,12 @@
     <string name="menu_settings_appearance">Appearance of the application</string>
     <string name="menu_settings_switcher_title">Theme of the application</string>
     <string name="menu_settings_switcher_summary">Choosing an application theme</string>
-    <string name="menu_settings_switcher_hint">Dark theme</string>
+    <string name="menu_settings_switcher_hint">Theme of the application</string>
     <string name="menu_settings_import_setting_title">System display settings</string>
     <string name="menu_settings_import_setting_summary">Display settings of your phone</string>
+    <string name="menu_settings_language">Language settings</string>
+    <string name="menu_settings_language_switcher_title">System language settings</string>
+    <string name="menu_settings_language_switcher_summary">Language settings of your phone</string>
 
     <string name="button_title_add">➕</string>
     <string name="button_title_delete">➖</string>
@@ -33,5 +36,4 @@
     <string name="title_deleted">Title deleted</string>
 
     <string name="search_bar_hint">Search saved title by name...</string>
-
 </resources>

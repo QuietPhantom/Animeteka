@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Animeteka</string>
+    <string name="navigation_drawer_open">Открыть навигационное меню</string>
+    <string name="navigation_drawer_close">Закрыть навигационное меню</string>
+    <string name="nav_header_title">Имя аккаунта</string>
+    <string name="nav_header_subtitle">example_email@android.com</string>
+    <string name="nav_header_desc">Иконка профиля</string>
+    <string name="action_settings">Настройки</string>
+
+    <string name="menu_home">Случайные аниме</string>
+    <string name="menu_bookmarks">Добавленные аниме</string>
+    <string name="menu_search">Поиск аниме</string>
+    <string name="title_fragment_label">Страница аниме тайтла</string>
+    <string name="menu_com_forum">Форум</string>
+    <string name="menu_com_person_add">Пригласить</string>
+    <string name="menu_com_links">Вспомогательные ссылки</string>
+
+    <string name="title_activity_settings">Настройки</string>
+    <string name="menu_settings_appearance">Внешний вид приложения</string>
+    <string name="menu_settings_switcher_title">Световая тема приложения</string>
+    <string name="menu_settings_switcher_summary">Выбор световой темы приложения</string>
+    <string name="menu_settings_switcher_hint">Тема приложения</string>
+    <string name="menu_settings_import_setting_title">Системные настройки дисплея</string>
+    <string name="menu_settings_import_setting_summary">Настройки дисплея вашего телефона</string>
+    <string name="menu_settings_language">Настройки языка</string>
+    <string name="menu_settings_language_switcher_title">Системные настройки языка</string>
+    <string name="menu_settings_language_switcher_summary">Языковые настройки вашего телефона</string>
+
+    <string name="button_title_add">➕</string>
+    <string name="button_title_delete">➖</string>
+
+    <string name="button_title_added">✓</string>
+    <string name="button_title_deleted">✖</string>
+
+    <string name="title_added">Аниме добавлено</string>
+    <string name="title_deleted">Анмие удалено</string>
+
+    <string name="search_bar_hint">Поиск сохранённого аниме по имени...</string>
+</resources>
