@@ -20,13 +20,4 @@
             <intent android:action="android.settings.DISPLAY_SETTINGS" />
         </PreferenceScreen>
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/menu_settings_language">
-        <PreferenceScreen
-            android:title="@string/menu_settings_language_switcher_title"
-            android:summary="@string/menu_settings_language_switcher_summary"
-            android:icon="@drawable/ic_language">
-            <intent android:action="android.settings.LOCALE_SETTINGS" />
-        </PreferenceScreen>
-    </PreferenceCategory>
 </PreferenceScreen>
