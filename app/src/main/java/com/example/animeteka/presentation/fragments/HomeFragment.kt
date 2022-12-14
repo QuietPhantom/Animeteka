@@ -60,9 +60,9 @@ class HomeFragment : Fragment() {
         updateButton = view.findViewById(R.id.updateTitleList)
         homeViewModel.initApi()
         dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
-        dialog.show()
         homeViewModel.getNewAnimeTitlesList(random)
         homeViewModel.livedata.observe(viewLifecycleOwner){
+            dialog.show()
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = TitlesAdapter(it,
                 object : OnRecycleViewListener {
@@ -75,8 +75,9 @@ class HomeFragment : Fragment() {
             if(state != null){
                 recyclerView.layoutManager?.onRestoreInstanceState(state)
             }
+            dialog.dismiss()
         }
-        dialog.dismiss()
+
 
         updateButton.setOnClickListener{
             dialog.show()
@@ -91,8 +92,8 @@ class HomeFragment : Fragment() {
                             view.findNavController().navigate(R.id.action_nav_home_to_elementFragment, bundle)
                         }
                     })
+                dialog.dismiss()
             }
-            dialog.dismiss()
         }
     }
 

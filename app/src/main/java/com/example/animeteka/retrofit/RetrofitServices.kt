@@ -11,4 +11,7 @@ interface RetrofitServices {
 
     @GET("/api/edge/anime/{titleId}")
     fun getAnimeTitleById(@Path("titleId") parameters: String): Call<RetrofitApiCallbackEntity>
+
+    @GET("/api/edge/anime?")
+    fun getAnimeTitlesListByKeyWords(@Query("filter[text]") parameters: String): Call<RetrofitApiCallbackEntities>
 }

@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.SlideshowFragment">
+    tools:context=".presentation.fragments.GalleryFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:iconifiedByDefault="false"
+        android:padding="4dp"
+        android:queryHint="@string/search_bar_api_hint" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_titles_list"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/search_bar"
+        app:layout_constraintHorizontal_bias="1.0"/>
+
+</RelativeLayout>

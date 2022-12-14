@@ -36,4 +36,7 @@
     <string name="title_deleted">Title deleted</string>
 
     <string name="search_bar_hint">Search saved title by name...</string>
+    <string name="search_bar_api_hint">Search titles by key words...</string>
+    <string name="search_bar_is_empty">Nothing to look for...</string>
+
 </resources>

@@ -25,7 +25,7 @@ class GalleryFragment : Fragment() {
     private lateinit var searchBar: SearchView
     private lateinit var gridAdapter: GridTitlesAdapter
     private lateinit var titlesList: List<TitleEntity>
-
+    private var querySearchBar: String = ""
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -38,7 +38,9 @@ class GalleryFragment : Fragment() {
         galleryViewModel.init(requireActivity().application as Application)
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
+        if(savedInstanceState != null){
+            querySearchBar = savedInstanceState.getString("query")!!
+        }
         return root
     }
 
@@ -60,6 +62,7 @@ class GalleryFragment : Fragment() {
                             view.findNavController().navigate(R.id.action_nav_gallery_to_elementFragment, bundle)
                         }
                     })
+
             gridRecyclerView.adapter = gridAdapter
 
             searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -73,6 +76,11 @@ class GalleryFragment : Fragment() {
                     return false
                 }
             })
+
+            if(querySearchBar != ""){
+                searchBar.setQuery(querySearchBar, true)
+                searchBar.clearFocus()
+            }
         }
     }
 
@@ -133,11 +141,16 @@ class GalleryFragment : Fragment() {
                 }
             }
         }
+    }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("query", searchBar.query.toString())
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        querySearchBar = searchBar.query.toString()
         _binding = null
     }
 }

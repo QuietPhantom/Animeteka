@@ -33,7 +33,13 @@
         android:id="@+id/nav_slideshow"
         android:name="com.example.animeteka.presentation.fragments.SlideshowFragment"
         android:label="@string/menu_search"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_slideshow" >
+        <action
+            android:id="@+id/action_nav_slideshow_to_elementFragment"
+            app:destination="@id/elementFragment"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 
     <fragment
         android:id="@+id/elementFragment"
