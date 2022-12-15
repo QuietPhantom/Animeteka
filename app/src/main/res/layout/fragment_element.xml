@@ -1,127 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.ElementFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/enTitleName"
-        android:layout_width="248dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="52dp"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleImage" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.fragments.ElementFragment">
 
-    <TextView
-        android:id="@+id/Rating"
-        android:layout_width="102dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
-        app:layout_constraintStart_toEndOf="@+id/Dates"
-        app:layout_constraintTop_toBottomOf="@+id/ageRating" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/titleImageCard"
+            android:layout_width="170dp"
+            android:layout_height="240dp"
+            app:cardElevation="10dp"
+            app:cardCornerRadius="15dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+            <ImageView
+                android:id="@+id/titleImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/Dates"
-        android:layout_width="247dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="4dp"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enTitleName" />
 
-    <TextView
-        android:id="@+id/ageRating"
-        android:layout_width="94dp"
-        android:layout_height="104dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:textSize="18dp"
-        app:layout_constraintStart_toEndOf="@+id/enTitleName"
-        app:layout_constraintTop_toBottomOf="@+id/TitleName" />
+        <TextView
+            android:id="@+id/enTitleName"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="@+id/ageRating"
+            app:layout_constraintTop_toBottomOf="@+id/TitleName" />
 
-    <TextView
-        android:id="@+id/Count"
-        android:layout_width="248dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="8dp"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Dates" />
+        <TextView
+            android:id="@+id/Rating"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@+id/Dates"
+            app:layout_constraintTop_toBottomOf="@+id/ageRating" />
 
-    <TextView
-        android:id="@+id/StatusAndType"
-        android:layout_width="245dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.295"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Count" />
+        <TextView
+            android:id="@+id/Dates"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@+id/Count"
+            app:layout_constraintTop_toBottomOf="@+id/Rating" />
 
-    <TextView
-        android:id="@+id/TitleName"
-        android:layout_width="334dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.653"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleImage" />
+        <TextView
+            android:id="@+id/ageRating"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@+id/Rating"
+            app:layout_constraintTop_toBottomOf="@+id/enTitleName" />
 
-    <ImageView
-        android:id="@+id/titleImage"
-        android:layout_width="164dp"
-        android:layout_height="231dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/Count"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@+id/StatusAndType"
+            app:layout_constraintTop_toBottomOf="@+id/Dates" />
 
-    <TextView
-        android:id="@+id/fullDescription"
-        android:layout_width="365dp"
-        android:layout_height="226dp"
-        android:layout_marginTop="10dp"
-        android:scrollbars="vertical"
-        android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StatusAndType"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/StatusAndType"
+            android:layout_width="350dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Count" />
 
-    <Button
-        android:id="@+id/addTitle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="@string/button_title_add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/TitleName"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="@+id/enTitleName"
+            app:layout_constraintTop_toBottomOf="@+id/titleImageCard" />
 
-    <Button
-        android:id="@+id/deleteTitle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/button_title_delete"
-        app:layout_constraintStart_toStartOf="@+id/addTitle"
-        app:layout_constraintTop_toBottomOf="@+id/addTitle" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/fullDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/StatusAndType"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/addTitle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:text="@string/button_title_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/deleteTitle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/button_title_delete"
+            app:layout_constraintStart_toStartOf="@+id/addTitle"
+            app:layout_constraintTop_toBottomOf="@+id/addTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+

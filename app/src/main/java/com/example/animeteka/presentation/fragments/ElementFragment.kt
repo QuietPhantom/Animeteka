@@ -64,7 +64,6 @@ class ElementFragment : Fragment() {
         Count = view.findViewById(R.id.Count)
         StatusAndType = view.findViewById(R.id.StatusAndType)
         FullDescription = view.findViewById(R.id.fullDescription)
-        FullDescription.movementMethod = ScrollingMovementMethod()
         TitleImage = view.findViewById(R.id.titleImage)
         AddTitle = view.findViewById(R.id.addTitle)
         DeleteTitle = view.findViewById(R.id.deleteTitle)
