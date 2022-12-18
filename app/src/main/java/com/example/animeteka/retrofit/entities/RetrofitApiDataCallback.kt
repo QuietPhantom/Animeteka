@@ -1,7 +1,5 @@
 package com.example.animeteka.retrofit.entities
 
-import com.example.animeteka.businesslogic.entities.TitleEntity
-
 data class RetrofitApiCallbackEntities(
     val data: List<RetrofitApiDataEntity>
 )
@@ -30,7 +28,8 @@ data class AttributesEntity(
     val status: String,
     val episodeCount: String,
     val episodeLength: String,
-    val totalLength: String
+    val totalLength: String,
+    val youtubeVideoId: String
 )
 
 data class ImageUrls(

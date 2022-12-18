@@ -37,4 +37,10 @@
     <string name="invite_fragment_invite_button_text">Send an invitation message</string>
     <string name="invite_message">Install our application by following the link or by searching in Google Market</string>
     <string name="invite_message_label">Share a note</string>
+    <string name="video_player_failed">Video player failed</string>
+    <string name="rating_title">score</string>
+    <string name="voice_count">voices</string>
+    <string name="episode_count">ep.</string>
+    <string name="episode_length">ser.</string>
+    <string name="all_length">all ep.</string>
 </resources>

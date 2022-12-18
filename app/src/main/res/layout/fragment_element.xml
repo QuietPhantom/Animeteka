@@ -77,7 +77,7 @@
         <TextView
             android:id="@+id/StatusAndType"
             android:layout_width="350dp"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:textSize="18dp"
@@ -97,9 +97,7 @@
             android:id="@+id/fullDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_margin="10dp"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -125,6 +123,19 @@
             android:text="@string/button_title_delete"
             app:layout_constraintStart_toStartOf="@+id/addTitle"
             app:layout_constraintTop_toBottomOf="@+id/addTitle" />
+
+        <ImageButton
+            android:id="@+id/videoButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/video_button_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_ondemand_video" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 

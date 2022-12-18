@@ -78,7 +78,6 @@ class HomeFragment : Fragment() {
             dialog.dismiss()
         }
 
-
         updateButton.setOnClickListener{
             dialog.show()
             random = (0..10000).random()

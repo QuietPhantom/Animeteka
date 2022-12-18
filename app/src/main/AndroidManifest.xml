@@ -16,6 +16,14 @@
         android:theme="@style/Theme.Animeteka"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.activities.YoutubeActivity"
+            android:exported="false"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".presentation.activities.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings">
@@ -39,5 +47,9 @@
                 android:value="" />
         </activity>
     </application>
-
+    <queries>
+        <intent>
+            <action android:name="com.google.android.youtube.api.service.START" />
+        </intent>
+    </queries>
 </manifest>

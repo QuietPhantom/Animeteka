@@ -38,4 +38,10 @@
     <string name="invite_fragment_invite_button_text">Отправить пригласительное сообщение</string>
     <string name="invite_message">Установите наше приложение по ссылке или по поиску в Google Market</string>
     <string name="invite_message_label">Поделиться запиской</string>
+    <string name="video_player_failed">"Ошибка видео-плеера "</string>
+    <string name="rating_title">балл(-а/-ов)</string>
+    <string name="voice_count">гол.</string>
+    <string name="episode_count">эп.</string>
+    <string name="episode_length">сер.</string>
+    <string name="all_length">всего сер.</string>
 </resources>

@@ -21,8 +21,9 @@ data class Title(
     val status: String,
     val episodeCount: String,
     val episodeLength: String,
-    val totalLength: String
+    val totalLength: String,
+    val youtubeVideoId: String
 )
 {
-    fun toTitleEntity() = TitleEntity(id, canonicalTitle, enTitle, description, posterImage, averageRating, userCount, startDate, endDate, ageRating, ageRatingGuide, subtype, status, episodeCount, episodeLength, totalLength)
+    fun toTitleEntity() = TitleEntity(id, canonicalTitle, enTitle, description, posterImage, averageRating, userCount, startDate, endDate, ageRating, ageRatingGuide, subtype, status, episodeCount, episodeLength, totalLength, youtubeVideoId)
 }
