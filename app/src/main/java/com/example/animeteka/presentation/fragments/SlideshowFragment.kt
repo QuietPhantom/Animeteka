@@ -45,8 +45,8 @@ class SlideshowFragment : Fragment() {
         _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
         val root: View = binding.root
         if(savedInstanceState != null){
-            querySearchBar = savedInstanceState.getString("query")!!
-            state = savedInstanceState.getParcelable("state")
+            querySearchBar = savedInstanceState.getString("querySearch")!!
+            state = savedInstanceState.getParcelable("stateSearch")
         }
         return root
     }
@@ -146,16 +146,19 @@ class SlideshowFragment : Fragment() {
         fun onViewClick(titleId: Int)
     }
 
+    override fun onPause() {
+        super.onPause()
+        state = recyclerView.layoutManager?.onSaveInstanceState()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        state = recyclerView.layoutManager?.onSaveInstanceState()
-        outState.putString("query", querySearchBar)
-        outState.putParcelable("state", state)
+        outState.putString("querySearch", querySearchBar)
+        outState.putParcelable("stateSearch", state)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        state = recyclerView.layoutManager?.onSaveInstanceState()
         _binding = null
     }
 }

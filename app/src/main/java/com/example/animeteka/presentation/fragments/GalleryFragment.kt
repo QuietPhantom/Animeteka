@@ -39,7 +39,7 @@ class GalleryFragment : Fragment() {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
         if(savedInstanceState != null){
-            querySearchBar = savedInstanceState.getString("query")!!
+            querySearchBar = savedInstanceState.getString("queryGallery")!!
         }
         return root
     }
@@ -48,7 +48,7 @@ class GalleryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         gridRecyclerView = view.findViewById(R.id.grid_titles_list)
-        searchBar = view.findViewById(R.id.search_bar)
+        searchBar = view.findViewById(R.id.search_bar_gallery)
 
         galleryViewModel.getTitles().observe(viewLifecycleOwner) {
             titlesList = it
@@ -143,14 +143,18 @@ class GalleryFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        querySearchBar = searchBar.query.toString()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("query", searchBar.query.toString())
+        outState.putString("queryGallery", querySearchBar)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        querySearchBar = searchBar.query.toString()
         _binding = null
     }
 }

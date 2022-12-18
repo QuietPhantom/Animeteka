@@ -7,7 +7,7 @@
     tools:context=".presentation.fragments.GalleryFragment">
 
     <SearchView
-        android:id="@+id/search_bar"
+        android:id="@+id/search_bar_gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -19,6 +19,6 @@
         android:id="@+id/grid_titles_list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/search_bar"/>
+        android:layout_below="@id/search_bar_gallery"/>
 
 </RelativeLayout>

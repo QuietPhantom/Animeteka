@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
         if(savedInstanceState != null){
             random = savedInstanceState.getInt("random")
-            state = savedInstanceState.getParcelable("state")
+            state = savedInstanceState.getParcelable("stateHome")
         }
         return root
     }
@@ -132,16 +132,19 @@ class HomeFragment : Fragment() {
         fun onViewClick(titleId: Int)
     }
 
+    override fun onPause() {
+        super.onPause()
+        state = recyclerView.layoutManager?.onSaveInstanceState()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        state = recyclerView.layoutManager?.onSaveInstanceState()
         outState.putInt("random", random)
-        outState.putParcelable("state", state)
+        outState.putParcelable("stateHome", state)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        state = recyclerView.layoutManager?.onSaveInstanceState()
         _binding = null
     }
 }
