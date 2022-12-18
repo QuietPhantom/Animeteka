@@ -50,4 +50,11 @@
             android:name="titleId"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/inviteFragment"
+        android:name="com.example.animeteka.presentation.fragments.InviteFragment"
+        android:label="@string/invite_fragment_title"
+        tools:layout="@layout/fragment_invite" />
+
 </navigation>

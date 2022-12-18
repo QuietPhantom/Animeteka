@@ -7,7 +7,6 @@
     <string name="nav_header_subtitle">example_email@android.com</string>
     <string name="nav_header_desc">Иконка профиля</string>
     <string name="action_settings">Настройки</string>
-
     <string name="menu_home">Случайные аниме</string>
     <string name="menu_bookmarks">Добавленные аниме</string>
     <string name="menu_search">Поиск аниме</string>
@@ -15,7 +14,6 @@
     <string name="menu_com_forum">Форум</string>
     <string name="menu_com_person_add">Пригласить</string>
     <string name="menu_com_links">Вспомогательные ссылки</string>
-
     <string name="title_activity_settings">Настройки</string>
     <string name="menu_settings_appearance">Внешний вид приложения</string>
     <string name="menu_settings_switcher_title">Световая тема приложения</string>
@@ -26,17 +24,18 @@
     <string name="menu_settings_language">Настройки языка</string>
     <string name="menu_settings_language_switcher_title">Системные настройки языка</string>
     <string name="menu_settings_language_switcher_summary">Языковые настройки вашего телефона</string>
-
     <string name="button_title_add">➕</string>
     <string name="button_title_delete">➖</string>
-
     <string name="button_title_added">✓</string>
     <string name="button_title_deleted">✖</string>
-
     <string name="title_added">Аниме добавлено</string>
     <string name="title_deleted">Анмие удалено</string>
-
     <string name="search_bar_hint">Поиск сохранённого аниме по имени...</string>
     <string name="search_bar_api_hint">Поиск аниме по ключевым словам...</string>
     <string name="search_bar_is_empty">Нечего искать...</string>
+    <string name="invite_fragment_title">Страница для приглашений</string>
+    <string name="invite_fragment_wish_text">Пожалуйста, рассказывайте и приглашайте своих друзей в наше приложение</string>
+    <string name="invite_fragment_invite_button_text">Отправить пригласительное сообщение</string>
+    <string name="invite_message">Установите наше приложение по ссылке или по поиску в Google Market</string>
+    <string name="invite_message_label">Поделиться запиской</string>
 </resources>

@@ -6,7 +6,6 @@
     <string name="nav_header_subtitle">example_email@android.com</string>
     <string name="nav_header_desc">Profile icon</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Titles page</string>
     <string name="menu_bookmarks">Bookmarked titles</string>
     <string name="menu_search">Search titles</string>
@@ -14,7 +13,6 @@
     <string name="menu_com_forum">Forum</string>
     <string name="menu_com_person_add">Invite a person</string>
     <string name="menu_com_links">Helpful links</string>
-
     <string name="title_activity_settings">Settings</string>
     <string name="menu_settings_appearance">Appearance of the application</string>
     <string name="menu_settings_switcher_title">Theme of the application</string>
@@ -25,18 +23,18 @@
     <string name="menu_settings_language">Language settings</string>
     <string name="menu_settings_language_switcher_title">System language settings</string>
     <string name="menu_settings_language_switcher_summary">Language settings of your phone</string>
-
     <string name="button_title_add">➕</string>
     <string name="button_title_delete">➖</string>
-
     <string name="button_title_added">✓</string>
     <string name="button_title_deleted">✖</string>
-
     <string name="title_added">Title added</string>
     <string name="title_deleted">Title deleted</string>
-
     <string name="search_bar_hint">Search saved title by name...</string>
     <string name="search_bar_api_hint">Search titles by key words...</string>
     <string name="search_bar_is_empty">Nothing to look for...</string>
-
+    <string name="invite_fragment_title">Invitation Page</string>
+    <string name="invite_fragment_wish_text">Please tell us and invite your friends to our app!</string>
+    <string name="invite_fragment_invite_button_text">Send an invitation message</string>
+    <string name="invite_message">Install our application by following the link or by searching in Google Market</string>
+    <string name="invite_message_label">Share a note</string>
 </resources>
