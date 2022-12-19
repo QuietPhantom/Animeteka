@@ -24,6 +24,7 @@ import dmax.dialog.SpotsDialog
 import kotlinx.coroutines.launch
 import android.widget.Toast
 import com.example.animeteka.presentation.activities.YoutubeActivity
+import com.ms.square.android.expandabletextview.ExpandableTextView
 
 
 class ElementFragment : Fragment() {
@@ -44,7 +45,7 @@ class ElementFragment : Fragment() {
     private lateinit var AgeRating: TextView
     private lateinit var Count: TextView
     private lateinit var StatusAndType: TextView
-    private lateinit var FullDescription: TextView
+    private lateinit var FullDescription: ExpandableTextView
     private lateinit var TitleImage: ImageView
     private lateinit var AddTitle: Button
     private lateinit var DeleteTitle: Button
@@ -68,7 +69,7 @@ class ElementFragment : Fragment() {
         AgeRating = view.findViewById(R.id.ageRating)
         Count = view.findViewById(R.id.Count)
         StatusAndType = view.findViewById(R.id.StatusAndType)
-        FullDescription = view.findViewById(R.id.fullDescription)
+        FullDescription = view.findViewById(R.id.expand_text_view)
         TitleImage = view.findViewById(R.id.titleImage)
         AddTitle = view.findViewById(R.id.addTitle)
         DeleteTitle = view.findViewById(R.id.deleteTitle)
