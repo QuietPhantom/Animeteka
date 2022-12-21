@@ -24,7 +24,6 @@ class GalleryFragment : Fragment() {
     private lateinit var gridRecyclerView: RecyclerView
     private lateinit var searchBar: SearchView
     private lateinit var gridAdapter: GridTitlesAdapter
-    private lateinit var titlesList: List<TitleEntity>
     private var querySearchBar: String = ""
     private val binding get() = _binding!!
 
@@ -51,10 +50,9 @@ class GalleryFragment : Fragment() {
         searchBar = view.findViewById(R.id.search_bar_gallery)
 
         galleryViewModel.getTitles().observe(viewLifecycleOwner) {
-            titlesList = it
             gridRecyclerView.layoutManager = GridLayoutManager(view.context, 2)
             gridAdapter =
-                GridTitlesAdapter(titlesList,
+                GridTitlesAdapter(it,
                     object : GridTitlesAdapter.OnGridRecycleViewListener {
                         override fun onViewClick(titleId: Int) {
                             val bundle = Bundle()
