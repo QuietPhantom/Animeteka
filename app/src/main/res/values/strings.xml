@@ -43,5 +43,4 @@
     <string name="episode_count">ep.</string>
     <string name="episode_length">ser.</string>
     <string name="all_length">all ep.</string>
-    <string name="search_null">Nothing found...</string>
 </resources>

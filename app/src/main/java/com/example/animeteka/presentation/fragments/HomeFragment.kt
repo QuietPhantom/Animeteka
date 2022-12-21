@@ -27,7 +27,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerViewAdapter: TitlesAdapter
     private lateinit var dialog: AlertDialog
     private lateinit var updateButton: FloatingActionButton
     private var random: Int = -1
@@ -65,7 +64,7 @@ class HomeFragment : Fragment() {
         homeViewModel.livedata.observe(viewLifecycleOwner){
             dialog.show()
             recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerViewAdapter = TitlesAdapter(it,
+            recyclerView.adapter = TitlesAdapter(it,
                 object : OnRecycleViewListener {
                     override fun onViewClick(titleId: Int) {
                         val bundle = Bundle()
@@ -73,7 +72,6 @@ class HomeFragment : Fragment() {
                         view.findNavController().navigate(R.id.action_nav_home_to_elementFragment, bundle)
                     }
                 })
-            recyclerView.adapter = recyclerViewAdapter
             if(state != null){
                 recyclerView.layoutManager?.onRestoreInstanceState(state)
             }
@@ -85,15 +83,20 @@ class HomeFragment : Fragment() {
             random = (0..10000).random()
             homeViewModel.getNewAnimeTitlesList(random)
             homeViewModel.livedata.observe(viewLifecycleOwner){
-                recyclerViewAdapter.setRetrofitItems(it)
+                recyclerView.adapter = TitlesAdapter(it,
+                    object : OnRecycleViewListener {
+                        override fun onViewClick(titleId: Int) {
+                            val bundle = Bundle()
+                            bundle.putInt("titleId", titleId)
+                            view.findNavController().navigate(R.id.action_nav_home_to_elementFragment, bundle)
+                        }
+                    })
                 dialog.dismiss()
             }
         }
     }
 
     class TitlesAdapter(private val titles: RetrofitApiCallbackEntities, private val listener: OnRecycleViewListener): RecyclerView.Adapter<TitlesAdapter.TitlesViewHolder> (){
-
-        private var adapterTitlesList: RetrofitApiCallbackEntities = this.titles
 
         class TitlesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.name)
@@ -110,22 +113,17 @@ class HomeFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: TitlesViewHolder, position: Int) {
-            holder.title.text = adapterTitlesList.data[position].attributes.canonicalTitle
-            holder.description.text = adapterTitlesList.data[position].attributes.description
-            holder.subDescription.text = adapterTitlesList.data[position].attributes.startDate.substringBefore('-') + " | " + adapterTitlesList.data[position].attributes.averageRating + " | " + adapterTitlesList.data[position].attributes.status + " | " + adapterTitlesList.data[position].attributes.subtype
-            Picasso.get().load(adapterTitlesList.data[position].attributes.posterImage.small).into(holder.image)
+            holder.title.text = titles.data[position].attributes.canonicalTitle
+            holder.description.text = titles.data[position].attributes.description
+            holder.subDescription.text = titles.data[position].attributes.startDate.substringBefore('-') + " | " + titles.data[position].attributes.averageRating + " | " + titles.data[position].attributes.status + " | " + titles.data[position].attributes.subtype
+            Picasso.get().load(titles.data[position].attributes.posterImage.small).into(holder.image)
             holder.itemView.setOnClickListener {
-                listener.onViewClick(adapterTitlesList.data[position].id)
+                listener.onViewClick(titles.data[position].id)
             }
         }
 
         override fun getItemCount(): Int {
-            return adapterTitlesList.data.size
-        }
-
-        fun setRetrofitItems(titlesList: RetrofitApiCallbackEntities){
-            adapterTitlesList = titlesList
-            notifyDataSetChanged()
+            return titles.data.size
         }
     }
 

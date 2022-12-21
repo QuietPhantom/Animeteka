@@ -28,7 +28,6 @@ class SlideshowFragment : Fragment() {
 
     private lateinit var slideshowViewModel: SlideshowViewModel
     private lateinit var recyclerView: RecyclerView
-    private var recyclerViewAdapter: TitlesAdapter? = null
     private lateinit var searchBar: SearchView
     private lateinit var dialog: AlertDialog
     private var querySearchBar: String = ""
@@ -60,24 +59,20 @@ class SlideshowFragment : Fragment() {
         slideshowViewModel.initApi()
         dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
-        if(!querySearchBar.isNullOrBlank()){
+        if(querySearchBar != ""){
             dialog.show()
             slideshowViewModel.getNewAnimeTitlesListByKeyWords(querySearchBar)
             slideshowViewModel.livedata.observe(viewLifecycleOwner){
-                if(recyclerViewAdapter != null){
-                    recyclerViewAdapter!!.setRetrofitItems(it)
-                } else {
-                    recyclerView.adapter = TitlesAdapter(it,
-                        object : OnRecycleViewListener {
-                            override fun onViewClick(titleId: Int) {
-                                val bundle = Bundle()
-                                bundle.putInt("titleId", titleId)
-                                view.findNavController().navigate(R.id.action_nav_slideshow_to_elementFragment, bundle)
-                            }
-                        })
-                }
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                recyclerView.adapter = TitlesAdapter(it,
+                    object : OnRecycleViewListener {
+                        override fun onViewClick(titleId: Int) {
+                            val bundle = Bundle()
+                            bundle.putInt("titleId", titleId)
+                            view.findNavController()
+                                .navigate(R.id.action_nav_slideshow_to_elementFragment, bundle)
+                        }
+                    })
                 if(state != null){
                     recyclerView.layoutManager?.onRestoreInstanceState(state)
                 }
@@ -87,30 +82,25 @@ class SlideshowFragment : Fragment() {
 
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query.isNullOrBlank()) {
-                    Toast.makeText(context, resources.getString(R.string.search_bar_is_empty), Toast.LENGTH_SHORT).show()
-                } else {
+                if (query != null) {
                     dialog.show()
                     slideshowViewModel.getNewAnimeTitlesListByKeyWords(query)
                     slideshowViewModel.livedata.observe(viewLifecycleOwner){
-                        if (recyclerViewAdapter != null){
-                            recyclerViewAdapter!!.setRetrofitItems(it)
-                        } else {
-                            recyclerViewAdapter = TitlesAdapter(it,
-                                object : OnRecycleViewListener {
-                                    override fun onViewClick(titleId: Int) {
-                                        val bundle = Bundle()
-                                        bundle.putInt("titleId", titleId)
-                                        view.findNavController()
-                                            .navigate(R.id.action_nav_slideshow_to_elementFragment, bundle)
-                                    }
-                                })
-                            recyclerView.adapter = recyclerViewAdapter
-                        }
-                        if (recyclerViewAdapter!!.itemCount == 0) Toast.makeText(context, resources.getString(R.string.search_null), Toast.LENGTH_SHORT).show()
-                        querySearchBar = query
+                        recyclerView.layoutManager = LinearLayoutManager(context)
+                        recyclerView.adapter = TitlesAdapter(it,
+                            object : OnRecycleViewListener {
+                                override fun onViewClick(titleId: Int) {
+                                    val bundle = Bundle()
+                                    bundle.putInt("titleId", titleId)
+                                    view.findNavController()
+                                        .navigate(R.id.action_nav_slideshow_to_elementFragment, bundle)
+                                }
+                            })
                         dialog.dismiss()
+                        querySearchBar = query
                     }
+                } else {
+                    Toast.makeText(context, resources.getString(R.string.search_bar_is_empty), Toast.LENGTH_SHORT).show()
                 }
                 return false
             }
@@ -122,8 +112,6 @@ class SlideshowFragment : Fragment() {
     }
 
     class TitlesAdapter(private val titles: RetrofitApiCallbackEntities, private val listener: OnRecycleViewListener): RecyclerView.Adapter<TitlesAdapter.TitlesViewHolder> (){
-
-        private var adapterTitlesList: RetrofitApiCallbackEntities = this.titles
 
         class TitlesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.name)
@@ -140,22 +128,17 @@ class SlideshowFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: TitlesViewHolder, position: Int) {
-            holder.title.text = adapterTitlesList.data[position].attributes.canonicalTitle
-            holder.description.text = adapterTitlesList.data[position].attributes.description
-            holder.subDescription.text = adapterTitlesList.data[position].attributes.startDate.substringBefore('-') + " | " + adapterTitlesList.data[position].attributes.averageRating + " | " + adapterTitlesList.data[position].attributes.status + " | " + adapterTitlesList.data[position].attributes.subtype
-            Picasso.get().load(adapterTitlesList.data[position].attributes.posterImage.small).into(holder.image)
+            holder.title.text = titles.data[position].attributes.canonicalTitle
+            holder.description.text = titles.data[position].attributes.description
+            holder.subDescription.text = titles.data[position].attributes.startDate.substringBefore('-') + " | " + titles.data[position].attributes.averageRating + " | " + titles.data[position].attributes.status + " | " + titles.data[position].attributes.subtype
+            Picasso.get().load(titles.data[position].attributes.posterImage.small).into(holder.image)
             holder.itemView.setOnClickListener {
-                listener.onViewClick(adapterTitlesList.data[position].id)
+                listener.onViewClick(titles.data[position].id)
             }
         }
 
         override fun getItemCount(): Int {
-            return adapterTitlesList.data.size
-        }
-
-        fun setRetrofitItems(titlesList: RetrofitApiCallbackEntities){
-            adapterTitlesList = titlesList
-            notifyDataSetChanged()
+            return titles.data.size
         }
     }
 
