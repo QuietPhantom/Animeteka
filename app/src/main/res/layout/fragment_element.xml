@@ -90,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/enTitleName"
             app:layout_constraintTop_toBottomOf="@+id/titleImageCard" />
 

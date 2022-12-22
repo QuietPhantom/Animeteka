@@ -19,7 +19,6 @@ import com.example.animeteka.databinding.FragmentHomeBinding
 import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntities
 import com.example.animeteka.presentation.viewmodels.HomeViewModel
 import com.squareup.picasso.Picasso
-import dmax.dialog.SpotsDialog
 
 
 class HomeFragment : Fragment() {
@@ -27,7 +26,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var dialog: AlertDialog
+    private lateinit var recyclerViewAdapter: TitlesAdapter
+    private lateinit var recyclerViewLayoutManager: LinearLayoutManager
     private lateinit var updateButton: FloatingActionButton
     private var random: Int = -1
     private var state: Parcelable? = null
@@ -52,38 +52,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(random == -1){
-            random = (0..10000).random()
-        }
+        homeViewModel.initApi()
 
         recyclerView = view.findViewById(R.id.titles_list)
         updateButton = view.findViewById(R.id.updateTitleList)
-        homeViewModel.initApi()
-        dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
-        homeViewModel.getNewAnimeTitlesList(random)
-        homeViewModel.livedata.observe(viewLifecycleOwner){
-            dialog.show()
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = TitlesAdapter(it,
-                object : OnRecycleViewListener {
-                    override fun onViewClick(titleId: Int) {
-                        val bundle = Bundle()
-                        bundle.putInt("titleId", titleId)
-                        view.findNavController().navigate(R.id.action_nav_home_to_elementFragment, bundle)
-                    }
-                })
-            if(state != null){
-                recyclerView.layoutManager?.onRestoreInstanceState(state)
-            }
-            dialog.dismiss()
-        }
 
-        updateButton.setOnClickListener{
-            dialog.show()
-            random = (0..10000).random()
-            homeViewModel.getNewAnimeTitlesList(random)
-            homeViewModel.livedata.observe(viewLifecycleOwner){
-                recyclerView.adapter = TitlesAdapter(it,
+        homeViewModel.livedata.observe(viewLifecycleOwner){
+            if (recyclerView.adapter == null){
+                recyclerViewLayoutManager = LinearLayoutManager(context)
+                recyclerViewAdapter = TitlesAdapter(it,
                     object : OnRecycleViewListener {
                         override fun onViewClick(titleId: Int) {
                             val bundle = Bundle()
@@ -91,12 +68,28 @@ class HomeFragment : Fragment() {
                             view.findNavController().navigate(R.id.action_nav_home_to_elementFragment, bundle)
                         }
                     })
-                dialog.dismiss()
+                recyclerView.layoutManager = recyclerViewLayoutManager
+                recyclerView.adapter = recyclerViewAdapter
+                if(state != null) recyclerViewLayoutManager.onRestoreInstanceState(state)
+            } else {
+                recyclerViewAdapter.setRetrofitData(it)
             }
+        }
+
+        if(random == -1){
+            random = (0..10000).random()
+            homeViewModel.getNewAnimeTitlesList(random, requireContext())
+        }
+
+        updateButton.setOnClickListener{
+            random = (0..10000).random()
+            homeViewModel.getNewAnimeTitlesList(random, requireContext())
         }
     }
 
     class TitlesAdapter(private val titles: RetrofitApiCallbackEntities, private val listener: OnRecycleViewListener): RecyclerView.Adapter<TitlesAdapter.TitlesViewHolder> (){
+
+        private var titlesListAdapter: RetrofitApiCallbackEntities = this.titles
 
         class TitlesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val title: TextView = itemView.findViewById(R.id.name)
@@ -113,17 +106,22 @@ class HomeFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: TitlesViewHolder, position: Int) {
-            holder.title.text = titles.data[position].attributes.canonicalTitle
-            holder.description.text = titles.data[position].attributes.description
-            holder.subDescription.text = titles.data[position].attributes.startDate.substringBefore('-') + " | " + titles.data[position].attributes.averageRating + " | " + titles.data[position].attributes.status + " | " + titles.data[position].attributes.subtype
-            Picasso.get().load(titles.data[position].attributes.posterImage.small).into(holder.image)
+            holder.title.text = titlesListAdapter.data[position].attributes.canonicalTitle
+            holder.description.text = titlesListAdapter.data[position].attributes.description
+            holder.subDescription.text = titlesListAdapter.data[position].attributes.startDate.substringBefore('-') + " | " + titlesListAdapter.data[position].attributes.averageRating + " | " + titlesListAdapter.data[position].attributes.status + " | " + titlesListAdapter.data[position].attributes.subtype
+            Picasso.get().load(titlesListAdapter.data[position].attributes.posterImage.small).into(holder.image)
             holder.itemView.setOnClickListener {
-                listener.onViewClick(titles.data[position].id)
+                listener.onViewClick(titlesListAdapter.data[position].id)
             }
         }
 
         override fun getItemCount(): Int {
-            return titles.data.size
+            return titlesListAdapter.data.size
+        }
+
+        fun setRetrofitData(titles: RetrofitApiCallbackEntities){
+            titlesListAdapter = titles
+            notifyDataSetChanged()
         }
     }
 
@@ -134,6 +132,7 @@ class HomeFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         state = recyclerView.layoutManager?.onSaveInstanceState()
+        homeViewModel.livedata.removeObservers(viewLifecycleOwner)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
