@@ -22,10 +22,9 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private lateinit var galleryViewModel: GalleryViewModel
     private lateinit var gridRecyclerView: RecyclerView
+    private lateinit var gridRecyclerViewAdapter: GridTitlesAdapter
+    private lateinit var gridRecyclerViewLayoutManager: GridLayoutManager
     private lateinit var searchBar: SearchView
-    private lateinit var gridAdapter: GridTitlesAdapter
-    private lateinit var titlesList: List<TitleEntity>
-    private var querySearchBar: String = ""
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -38,9 +37,6 @@ class GalleryFragment : Fragment() {
         galleryViewModel.init(requireActivity().application as Application)
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        if(savedInstanceState != null){
-            querySearchBar = savedInstanceState.getString("queryGallery")!!
-        }
         return root
     }
 
@@ -51,36 +47,18 @@ class GalleryFragment : Fragment() {
         searchBar = view.findViewById(R.id.search_bar_gallery)
 
         galleryViewModel.getTitles().observe(viewLifecycleOwner) {
-            titlesList = it
-            gridRecyclerView.layoutManager = GridLayoutManager(view.context, 2)
-            gridAdapter =
-                GridTitlesAdapter(titlesList,
-                    object : GridTitlesAdapter.OnGridRecycleViewListener {
+            gridRecyclerViewLayoutManager = GridLayoutManager(view.context, 2)
+            gridRecyclerViewAdapter =
+                GridTitlesAdapter(it,
+                    object : OnGridRecycleViewListener {
                         override fun onViewClick(titleId: Int) {
                             val bundle = Bundle()
                             bundle.putInt("titleId", titleId)
                             view.findNavController().navigate(R.id.action_nav_gallery_to_elementFragment, bundle)
                         }
                     })
-
-            gridRecyclerView.adapter = gridAdapter
-
-            searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    gridAdapter!!.filter.filter(query)
-                    return false
-                }
-
-                override fun onQueryTextChange(query: String?): Boolean {
-                    gridAdapter!!.filter.filter(query)
-                    return false
-                }
-            })
-
-            if(querySearchBar != ""){
-                searchBar.setQuery(querySearchBar, true)
-                searchBar.clearFocus()
-            }
+            gridRecyclerView.layoutManager = gridRecyclerViewLayoutManager
+            gridRecyclerView.adapter = gridRecyclerViewAdapter
         }
     }
 
@@ -113,10 +91,6 @@ class GalleryFragment : Fragment() {
             return titlesListSearch.size
         }
 
-        interface OnGridRecycleViewListener {
-            fun onViewClick(titleId: Int)
-        }
-
         override fun getFilter(): Filter {
             return object : Filter(){
                 override fun performFiltering(searchChars: CharSequence?): FilterResults {
@@ -143,14 +117,30 @@ class GalleryFragment : Fragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        querySearchBar = searchBar.query.toString()
+    interface OnGridRecycleViewListener {
+        fun onViewClick(titleId: Int)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("queryGallery", querySearchBar)
+    override fun onResume() {
+        super.onResume()
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                gridRecyclerViewAdapter.filter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                gridRecyclerViewAdapter.filter.filter(query)
+                return false
+            }
+        })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        searchBar.setQuery("", false);
+        searchBar.clearFocus()
+        searchBar.isIconified = true;
     }
 
     override fun onDestroyView() {
