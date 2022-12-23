@@ -29,18 +29,14 @@ class ElementViewModel : ViewModel() {
     }
 
     fun getAnimeTitleById(titleId: Int, context: Context) {
-        var dialog: AlertDialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
-        dialog.show()
         retrofitService.getAnimeTitleById(titleId.toString()).enqueue(object:
             Callback<RetrofitApiCallbackEntity> {
             override fun onFailure(call: Call<RetrofitApiCallbackEntity>, t: Throwable) {
                 t.printStackTrace()
-                dialog.dismiss()
             }
 
             override fun onResponse(call: Call<RetrofitApiCallbackEntity>, response: Response<RetrofitApiCallbackEntity>) {
                 livedata.postValue(response.body()!!)
-                dialog.dismiss()
             }
         })
     }

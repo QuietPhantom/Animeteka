@@ -22,20 +22,16 @@ class HomeViewModel : ViewModel() {
         retrofitService = Common.retrofitService
     }
 
-    fun getNewAnimeTitlesList(randomNumber: Int, context: Context) {
-        var dialog: AlertDialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
-        dialog.show()
+    fun getNewAnimeTitlesList(randomNumber: Int) {
         retrofitService.getAnimeTitlesList(randomNumber.toString()).enqueue(object:
             Callback<RetrofitApiCallbackEntities> {
 
             override fun onFailure(call: Call<RetrofitApiCallbackEntities>, t: Throwable) {
                 t.printStackTrace()
-                dialog.dismiss()
             }
 
             override fun onResponse(call: Call<RetrofitApiCallbackEntities>, response: Response<RetrofitApiCallbackEntities>) {
                 livedata.postValue(response.body()!!)
-                dialog.dismiss()
             }
         })
     }

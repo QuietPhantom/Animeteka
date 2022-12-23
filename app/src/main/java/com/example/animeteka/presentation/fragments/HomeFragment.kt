@@ -19,6 +19,7 @@ import com.example.animeteka.databinding.FragmentHomeBinding
 import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntities
 import com.example.animeteka.presentation.viewmodels.HomeViewModel
 import com.squareup.picasso.Picasso
+import dmax.dialog.SpotsDialog
 
 
 class HomeFragment : Fragment() {
@@ -31,6 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var updateButton: FloatingActionButton
     private var random: Int = -1
     private var state: Parcelable? = null
+    private lateinit var dialog: AlertDialog
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -51,6 +53,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
 
         homeViewModel.initApi()
 
@@ -74,16 +78,19 @@ class HomeFragment : Fragment() {
             } else {
                 recyclerViewAdapter.setRetrofitData(it)
             }
+            dialog.dismiss()
         }
 
         if(random == -1){
             random = (0..10000).random()
-            homeViewModel.getNewAnimeTitlesList(random, requireContext())
+            homeViewModel.getNewAnimeTitlesList(random)
+            dialog.show()
         }
 
         updateButton.setOnClickListener{
             random = (0..10000).random()
-            homeViewModel.getNewAnimeTitlesList(random, requireContext())
+            homeViewModel.getNewAnimeTitlesList(random)
+            dialog.show()
         }
     }
 

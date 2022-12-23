@@ -1,5 +1,6 @@
 package com.example.animeteka.presentation.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.example.animeteka.databinding.FragmentSlideshowBinding
 import com.example.animeteka.presentation.viewmodels.SlideshowViewModel
 import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntities
 import com.squareup.picasso.Picasso
+import dmax.dialog.SpotsDialog
 
 class SlideshowFragment : Fragment() {
 
@@ -31,6 +33,7 @@ class SlideshowFragment : Fragment() {
     private lateinit var searchBar: SearchView
     private var querySearchBar: String = ""
     private var state: Parcelable? = null
+    private lateinit var dialog: AlertDialog
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -52,6 +55,9 @@ class SlideshowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
+
         slideshowViewModel.initApi()
 
         recyclerView = view.findViewById(R.id.search_titles_list)
@@ -75,10 +81,13 @@ class SlideshowFragment : Fragment() {
             } else {
                 recyclerViewAdapter.setRetrofitData(it)
             }
+            if(it.data.isEmpty()) Toast.makeText(context, resources.getString(R.string.search_null), Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
         }
 
         if(!querySearchBar.isNullOrBlank()){
             slideshowViewModel.getNewAnimeTitlesListByKeyWords(querySearchBar, requireContext())
+            dialog.show()
         }
 
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -86,6 +95,7 @@ class SlideshowFragment : Fragment() {
                 if (!query.isNullOrBlank()) {
                     searchBar.clearFocus()
                     slideshowViewModel.getNewAnimeTitlesListByKeyWords(query, requireContext())
+                    dialog.show()
                     querySearchBar = query
                 } else {
                     Toast.makeText(context, resources.getString(R.string.search_bar_is_empty), Toast.LENGTH_SHORT).show()

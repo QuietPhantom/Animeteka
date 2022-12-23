@@ -1,6 +1,7 @@
 package com.example.animeteka.presentation.fragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
 import android.widget.Toast
 import com.example.animeteka.presentation.activities.YoutubeActivity
 import com.ms.square.android.expandabletextview.ExpandableTextView
+import dmax.dialog.SpotsDialog
 
 
 class ElementFragment : Fragment() {
@@ -47,6 +49,7 @@ class ElementFragment : Fragment() {
     private lateinit var AddTitle: Button
     private lateinit var DeleteTitle: Button
     private lateinit var VideoButton: ImageButton
+    private lateinit var dialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +63,9 @@ class ElementFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
+
         TitleName = view.findViewById(R.id.TitleName)
         enTitleName = view.findViewById(R.id.enTitleName)
         Dates = view.findViewById(R.id.Dates)
@@ -108,8 +114,10 @@ class ElementFragment : Fragment() {
                     }catch (e: NullPointerException){
                         view.findNavController().popBackStack()
                     }
+                    dialog.dismiss()
                 }
                 elementViewModel.getAnimeTitleById(titleId, requireContext())
+                dialog.show()
                 DeleteTitle.isEnabled = false
             }
         }
