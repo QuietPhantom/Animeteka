@@ -23,7 +23,7 @@ class SlideshowViewModel : ViewModel() {
         retrofitService = Common.retrofitService
     }
 
-    fun getNewAnimeTitlesListByKeyWords(keyWords: String, context: Context) {
+    fun getNewAnimeTitlesListByKeyWords(keyWords: String) {
         retrofitService.getAnimeTitlesListByKeyWords(keyWords).enqueue(object:
             Callback<RetrofitApiCallbackEntities> {
 

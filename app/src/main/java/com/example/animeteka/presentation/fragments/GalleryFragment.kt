@@ -63,7 +63,67 @@ class GalleryFragment : Fragment() {
                     })
             gridRecyclerView.layoutManager = gridRecyclerViewLayoutManager
             gridRecyclerView.adapter = gridRecyclerViewAdapter
+
+            searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    gridRecyclerViewAdapter.filter.filter(query)
+                    return false
+                }
+
+                override fun onQueryTextChange(query: String?): Boolean {
+                    gridRecyclerViewAdapter.filter.filter(query)
+                    return false
+                }
+            })
         }
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                // когда движется
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val deletedTitle: TitleEntity = gridRecyclerViewAdapter.getTitlesList()[viewHolder.adapterPosition]
+                val position = viewHolder.adapterPosition
+
+                gridRecyclerViewAdapter.getTitlesList().removeAt(position)
+
+                gridRecyclerViewAdapter.notifyItemRemoved(position)
+
+                galleryViewModel.viewModelScope.launch {
+                    galleryViewModel.deleteTitle(deletedTitle)
+                }
+
+                Snackbar.make(gridRecyclerView, resources.getString(R.string.deleted_title) + ' ' + deletedTitle.canonicalTitle, Snackbar.LENGTH_LONG)
+                    .setAction(
+                        resources.getString(R.string.cancel_button),
+                        View.OnClickListener {
+                            gridRecyclerViewAdapter.getTitlesList().add(position, deletedTitle)
+                            gridRecyclerViewAdapter.notifyItemInserted(position)
+                            galleryViewModel.viewModelScope.launch {
+                                galleryViewModel.saveTitle(deletedTitle)
+                            }
+                        }).show()
+            }
+        }).attachToRecyclerView(gridRecyclerView)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        searchBar.setQuery("", false);
+        searchBar.clearFocus()
+        searchBar.isIconified = true;
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        galleryViewModel.getTitles().removeObservers(viewLifecycleOwner)
+        _binding = null
     }
 
     class GridTitlesAdapter(private val titlesList: List<TitleEntity>, private val listener: OnGridRecycleViewListener): RecyclerView.Adapter<GridTitlesAdapter.GridTitlesViewHolder>(), Filterable{
@@ -127,68 +187,5 @@ class GalleryFragment : Fragment() {
 
     interface OnGridRecycleViewListener {
         fun onViewClick(titleId: Int)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                gridRecyclerViewAdapter.filter.filter(query)
-                return false
-            }
-
-            override fun onQueryTextChange(query: String?): Boolean {
-                gridRecyclerViewAdapter.filter.filter(query)
-                return false
-            }
-        })
-
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                // когда движется
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val deletedTitle: TitleEntity = gridRecyclerViewAdapter.getTitlesList()[viewHolder.adapterPosition]
-                val position = viewHolder.adapterPosition
-
-                gridRecyclerViewAdapter.getTitlesList().removeAt(position)
-
-                gridRecyclerViewAdapter.notifyItemRemoved(position)
-
-                galleryViewModel.viewModelScope.launch {
-                    galleryViewModel.deleteTitle(deletedTitle)
-                }
-
-                Snackbar.make(gridRecyclerView, resources.getString(R.string.deleted_title) + ' ' + deletedTitle.canonicalTitle, Snackbar.LENGTH_LONG)
-                    .setAction(
-                        resources.getString(R.string.cancel_button),
-                        View.OnClickListener {
-                            gridRecyclerViewAdapter.getTitlesList().add(position, deletedTitle)
-                            gridRecyclerViewAdapter.notifyItemInserted(position)
-                            galleryViewModel.viewModelScope.launch {
-                                galleryViewModel.saveTitle(deletedTitle)
-                            }
-                        }).show()
-            }
-        }).attachToRecyclerView(gridRecyclerView)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        searchBar.setQuery("", false);
-        searchBar.clearFocus()
-        searchBar.isIconified = true;
-        galleryViewModel.getTitles().removeObservers(viewLifecycleOwner)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -151,8 +151,8 @@ class ElementFragment : Fragment() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroyView() {
+        super.onDestroyView()
         elementViewModel.livedata.removeObservers(viewLifecycleOwner)
         elementViewModel.getCountTitleById(titleId).removeObservers(viewLifecycleOwner)
         elementViewModel.getTitleById(titleId).removeObservers(viewLifecycleOwner)

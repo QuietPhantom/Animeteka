@@ -30,7 +30,6 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerViewAdapter: TitlesAdapter
     private lateinit var recyclerViewLayoutManager: LinearLayoutManager
     private lateinit var updateButton: FloatingActionButton
-    private var random: Int = -1
     private var state: Parcelable? = null
     private lateinit var dialog: AlertDialog
     private val binding get() = _binding!!
@@ -44,10 +43,7 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        if(savedInstanceState != null){
-            random = savedInstanceState.getInt("random")
-            state = savedInstanceState.getParcelable("stateHome")
-        }
+        if(savedInstanceState != null) state = savedInstanceState.getParcelable("stateHome")
         return root
     }
 
@@ -81,17 +77,33 @@ class HomeFragment : Fragment() {
             dialog.dismiss()
         }
 
-        if(random == -1){
-            random = (0..10000).random()
+        if (homeViewModel.livedata.value == null){
+            val random = (0..10000).random()
             homeViewModel.getNewAnimeTitlesList(random)
             dialog.show()
         }
 
         updateButton.setOnClickListener{
-            random = (0..10000).random()
+            val random = (0..10000).random()
             homeViewModel.getNewAnimeTitlesList(random)
             dialog.show()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        state = recyclerView.layoutManager?.onSaveInstanceState()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("stateHome", state)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        homeViewModel.livedata.removeObservers(viewLifecycleOwner)
+        _binding = null
     }
 
     class TitlesAdapter(private val titles: RetrofitApiCallbackEntities, private val listener: OnRecycleViewListener): RecyclerView.Adapter<TitlesAdapter.TitlesViewHolder> (){
@@ -134,22 +146,5 @@ class HomeFragment : Fragment() {
 
     interface OnRecycleViewListener {
         fun onViewClick(titleId: Int)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        state = recyclerView.layoutManager?.onSaveInstanceState()
-        homeViewModel.livedata.removeObservers(viewLifecycleOwner)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt("random", random)
-        outState.putParcelable("stateHome", state)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

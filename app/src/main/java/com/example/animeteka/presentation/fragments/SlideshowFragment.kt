@@ -31,7 +31,6 @@ class SlideshowFragment : Fragment() {
     private lateinit var recyclerViewAdapter: TitlesAdapter
     private lateinit var recyclerViewLayoutManager: LinearLayoutManager
     private lateinit var searchBar: SearchView
-    private var querySearchBar: String = ""
     private var state: Parcelable? = null
     private lateinit var dialog: AlertDialog
     private val binding get() = _binding!!
@@ -46,10 +45,7 @@ class SlideshowFragment : Fragment() {
 
         _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        if(savedInstanceState != null){
-            querySearchBar = savedInstanceState.getString("querySearch")!!
-            state = savedInstanceState.getParcelable("stateSearch")
-        }
+        if(savedInstanceState != null) state = savedInstanceState.getParcelable("stateSearch")
         return root
     }
 
@@ -85,18 +81,12 @@ class SlideshowFragment : Fragment() {
             dialog.dismiss()
         }
 
-        if(!querySearchBar.isNullOrBlank()){
-            slideshowViewModel.getNewAnimeTitlesListByKeyWords(querySearchBar, requireContext())
-            dialog.show()
-        }
-
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
                     searchBar.clearFocus()
-                    slideshowViewModel.getNewAnimeTitlesListByKeyWords(query, requireContext())
+                    slideshowViewModel.getNewAnimeTitlesListByKeyWords(query)
                     dialog.show()
-                    querySearchBar = query
                 } else {
                     Toast.makeText(context, resources.getString(R.string.search_bar_is_empty), Toast.LENGTH_SHORT).show()
                 }
@@ -107,6 +97,22 @@ class SlideshowFragment : Fragment() {
                 return false
             }
         })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        state = recyclerView.layoutManager?.onSaveInstanceState()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("stateSearch", state)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        slideshowViewModel.livedata.removeObservers(viewLifecycleOwner)
+        _binding = null
     }
 
     class TitlesAdapter(private val titles: RetrofitApiCallbackEntities, private val listener: OnRecycleViewListener): RecyclerView.Adapter<TitlesAdapter.TitlesViewHolder> (){
@@ -149,22 +155,5 @@ class SlideshowFragment : Fragment() {
 
     interface OnRecycleViewListener {
         fun onViewClick(titleId: Int)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        state = recyclerView.layoutManager?.onSaveInstanceState()
-        slideshowViewModel.livedata.removeObservers(viewLifecycleOwner)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("querySearch", querySearchBar)
-        outState.putParcelable("stateSearch", state)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
