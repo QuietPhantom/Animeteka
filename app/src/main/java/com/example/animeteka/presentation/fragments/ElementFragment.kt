@@ -1,5 +1,6 @@
 package com.example.animeteka.presentation.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -56,6 +57,7 @@ class ElementFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_element, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         TitleName = view.findViewById(R.id.TitleName)
@@ -90,7 +92,6 @@ class ElementFragment : Fragment() {
                 }
                 AddTitle.isEnabled = false
             } else {
-                elementViewModel.getAnimeTitleById(titleId)
                 elementViewModel.livedata.observe(viewLifecycleOwner){ it ->
                     Picasso.get().load(it.data.attributes.posterImage.original).into(TitleImage)
                     TitleName.text = it.data.attributes.canonicalTitle
@@ -108,6 +109,7 @@ class ElementFragment : Fragment() {
                         view.findNavController().popBackStack()
                     }
                 }
+                elementViewModel.getAnimeTitleById(titleId, requireContext())
                 DeleteTitle.isEnabled = false
             }
         }
@@ -139,7 +141,12 @@ class ElementFragment : Fragment() {
             intent.putExtra("youtubeVideoId", titleYTVideoId)
             startActivity(intent)
         }
+    }
 
-
+    override fun onPause() {
+        super.onPause()
+        elementViewModel.livedata.removeObservers(viewLifecycleOwner)
+        elementViewModel.getCountTitleById(titleId).removeObservers(viewLifecycleOwner)
+        elementViewModel.getTitleById(titleId).removeObservers(viewLifecycleOwner)
     }
 }

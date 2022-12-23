@@ -149,7 +149,7 @@ class GalleryFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                // this method is called when the item is moved.
+                // когда движется
                 return false
             }
 
@@ -165,9 +165,9 @@ class GalleryFragment : Fragment() {
                     galleryViewModel.deleteTitle(deletedTitle)
                 }
 
-                Snackbar.make(gridRecyclerView, "Deleted " + deletedTitle.canonicalTitle, Snackbar.LENGTH_LONG)
+                Snackbar.make(gridRecyclerView, resources.getString(R.string.deleted_title) + ' ' + deletedTitle.canonicalTitle, Snackbar.LENGTH_LONG)
                     .setAction(
-                        "Undo",
+                        resources.getString(R.string.cancel_button),
                         View.OnClickListener {
                             gridRecyclerViewAdapter.getTitlesList().add(position, deletedTitle)
                             gridRecyclerViewAdapter.notifyItemInserted(position)

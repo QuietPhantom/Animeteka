@@ -45,4 +45,6 @@
     <string name="episode_length">сер.</string>
     <string name="all_length">всего сер.</string>
     <string name="search_null">Ничего не найдено...</string>
+    <string name="deleted_title">Удален</string>
+    <string name="cancel_button">Отмена</string>
 </resources>
