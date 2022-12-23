@@ -44,4 +44,6 @@
     <string name="episode_length">ser.</string>
     <string name="all_length">all ep.</string>
     <string name="search_null">Nothing found...</string>
+    <string name="deleted_title">Deleted</string>
+    <string name="cancel_button">Undo</string>
 </resources>

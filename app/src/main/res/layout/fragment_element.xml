@@ -126,7 +126,7 @@
             android:id="@+id/addTitle"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="75dp"
             android:layout_marginEnd="32dp"
             android:text="@string/button_title_add"
             app:layout_constraintEnd_toEndOf="parent"
@@ -143,10 +143,10 @@
 
         <ImageButton
             android:id="@+id/videoButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="110dp"
             android:background="@drawable/video_button_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
