@@ -7,15 +7,19 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animeteka.R
 import com.example.animeteka.businesslogic.entities.TitleEntity
 import com.example.animeteka.data.Application
 import com.example.animeteka.databinding.FragmentGalleryBinding
 import com.example.animeteka.presentation.viewmodels.GalleryViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 
 class GalleryFragment : Fragment() {
 
@@ -64,7 +68,7 @@ class GalleryFragment : Fragment() {
 
     class GridTitlesAdapter(private val titlesList: List<TitleEntity>, private val listener: OnGridRecycleViewListener): RecyclerView.Adapter<GridTitlesAdapter.GridTitlesViewHolder>(), Filterable{
 
-        private var titlesListSearch: List<TitleEntity> = this.titlesList
+        private var titlesListSearch: MutableList<TitleEntity> = this.titlesList as MutableList<TitleEntity>
 
         class GridTitlesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             val titleName: TextView = itemView.findViewById(R.id.titleNameCardView)
@@ -96,7 +100,7 @@ class GalleryFragment : Fragment() {
                 override fun performFiltering(searchChars: CharSequence?): FilterResults {
                     val searchString = searchChars.toString()
                     if(searchString.isEmpty()){
-                        titlesListSearch = titlesList
+                        titlesListSearch = titlesList as MutableList<TitleEntity>
                     } else {
                         val resultList: MutableList<TitleEntity> = mutableListOf()
                         for (row in titlesList){
@@ -110,10 +114,14 @@ class GalleryFragment : Fragment() {
                 }
 
                 override fun publishResults(charSequence: CharSequence?, filterResult: FilterResults?) {
-                    titlesListSearch = filterResult!!.values as List<TitleEntity>
+                    titlesListSearch = filterResult!!.values as MutableList<TitleEntity>
                     notifyDataSetChanged()
                 }
             }
+        }
+
+        fun getTitlesList(): MutableList<TitleEntity>{
+            return titlesListSearch
         }
     }
 
@@ -134,6 +142,41 @@ class GalleryFragment : Fragment() {
                 return false
             }
         })
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                // this method is called when the item is moved.
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val deletedTitle: TitleEntity = gridRecyclerViewAdapter.getTitlesList()[viewHolder.adapterPosition]
+                val position = viewHolder.adapterPosition
+
+                gridRecyclerViewAdapter.getTitlesList().removeAt(position)
+
+                gridRecyclerViewAdapter.notifyItemRemoved(position)
+
+                galleryViewModel.viewModelScope.launch {
+                    galleryViewModel.deleteTitle(deletedTitle)
+                }
+
+                Snackbar.make(gridRecyclerView, "Deleted " + deletedTitle.canonicalTitle, Snackbar.LENGTH_LONG)
+                    .setAction(
+                        "Undo",
+                        View.OnClickListener {
+                            gridRecyclerViewAdapter.getTitlesList().add(position, deletedTitle)
+                            gridRecyclerViewAdapter.notifyItemInserted(position)
+                            galleryViewModel.viewModelScope.launch {
+                                galleryViewModel.saveTitle(deletedTitle)
+                            }
+                        }).show()
+            }
+        }).attachToRecyclerView(gridRecyclerView)
     }
 
     override fun onPause() {
@@ -141,6 +184,7 @@ class GalleryFragment : Fragment() {
         searchBar.setQuery("", false);
         searchBar.clearFocus()
         searchBar.isIconified = true;
+        galleryViewModel.getTitles().removeObservers(viewLifecycleOwner)
     }
 
     override fun onDestroyView() {

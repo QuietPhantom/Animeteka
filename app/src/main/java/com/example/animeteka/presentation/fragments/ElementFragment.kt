@@ -1,6 +1,5 @@
 package com.example.animeteka.presentation.fragments
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +18,6 @@ import com.example.animeteka.businesslogic.entities.TitleEntity
 import com.example.animeteka.data.Application
 import com.example.animeteka.presentation.viewmodels.ElementViewModel
 import com.squareup.picasso.Picasso
-import dmax.dialog.SpotsDialog
 import kotlinx.coroutines.launch
 import android.widget.Toast
 import com.example.animeteka.presentation.activities.YoutubeActivity
@@ -32,7 +30,6 @@ class ElementFragment : Fragment() {
         fun newInstance() = ElementFragment()
     }
 
-    private lateinit var dialog: AlertDialog
     private lateinit var elementViewModel: ElementViewModel
     private lateinit var titleInf: TitleEntity
     private var titleId: Int = 1
@@ -75,8 +72,6 @@ class ElementFragment : Fragment() {
         VideoButton = view.findViewById(R.id.videoButton)
 
         elementViewModel.initApi(requireActivity().application as Application)
-        dialog = SpotsDialog.Builder().setCancelable(true).setContext(context).build()
-        dialog.show()
         
         elementViewModel.getCountTitleById(titleId).observe(viewLifecycleOwner){
             if(it == 1){
@@ -110,14 +105,12 @@ class ElementFragment : Fragment() {
                     try{
                         titleInf = TitleEntity(titleId,it.data.attributes.canonicalTitle,it.data.attributes.titles.en,it.data.attributes.description,it.data.attributes.posterImage.original,it.data.attributes.averageRating,it.data.attributes.userCount,it.data.attributes.startDate,it.data.attributes.endDate,it.data.attributes.ageRating,it.data.attributes.ageRatingGuide,it.data.attributes.subtype,it.data.attributes.status,it.data.attributes.episodeCount,it.data.attributes.episodeLength,it.data.attributes.totalLength, it.data.attributes.youtubeVideoId)
                     }catch (e: NullPointerException){
-                        dialog.dismiss()
                         view.findNavController().popBackStack()
                     }
                 }
                 DeleteTitle.isEnabled = false
             }
         }
-        dialog.dismiss()
 
         AddTitle.setOnClickListener {
             elementViewModel.viewModelScope.launch {

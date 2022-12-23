@@ -18,4 +18,12 @@ class GalleryViewModel : ViewModel() {
     fun getTitles(): LiveData<List<TitleEntity>> = liveData {
             emit(UseCase.getAllTitles())
     }
+
+    suspend fun saveTitle(title: TitleEntity){
+        UseCase.saveTitle(title)
+    }
+
+    suspend fun deleteTitle(title: TitleEntity){
+        UseCase.deleteTitle(title)
+    }
 }
