@@ -9,9 +9,9 @@ import androidx.lifecycle.liveData
 import com.example.animeteka.businesslogic.entities.TitleEntity
 import com.example.animeteka.businesslogic.usecases.IUseCase
 import com.example.animeteka.data.Application
-import com.example.animeteka.retrofit.common.Common
-import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntity
-import com.example.animeteka.retrofit.RetrofitServices
+import com.example.animeteka.data.retrofit.common.Common
+import com.example.animeteka.data.retrofit.entities.RetrofitApiCallbackEntity
+import com.example.animeteka.data.retrofit.RetrofitServices
 import dmax.dialog.SpotsDialog
 import retrofit2.Call
 import retrofit2.Callback

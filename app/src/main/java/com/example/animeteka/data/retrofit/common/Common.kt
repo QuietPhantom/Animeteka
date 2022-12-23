@@ -1,7 +1,7 @@
-package com.example.animeteka.retrofit.common
+package com.example.animeteka.data.retrofit.common
 
-import com.example.animeteka.retrofit.RetrofitServices
-import com.example.animeteka.retrofit.RetrofitClient
+import com.example.animeteka.data.retrofit.RetrofitServices
+import com.example.animeteka.data.retrofit.RetrofitClient
 
 object Common {
     private val BASE_URL = "https://kitsu.io"

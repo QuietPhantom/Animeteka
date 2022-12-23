@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animeteka.R
 import com.example.animeteka.databinding.FragmentHomeBinding
-import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntities
+import com.example.animeteka.data.retrofit.entities.RetrofitApiCallbackEntities
 import com.example.animeteka.presentation.viewmodels.HomeViewModel
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog

@@ -1,7 +1,7 @@
-package com.example.animeteka.retrofit
+package com.example.animeteka.data.retrofit
 
-import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntities
-import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntity
+import com.example.animeteka.data.retrofit.entities.RetrofitApiCallbackEntities
+import com.example.animeteka.data.retrofit.entities.RetrofitApiCallbackEntity
 import retrofit2.Call
 import retrofit2.http.*
 

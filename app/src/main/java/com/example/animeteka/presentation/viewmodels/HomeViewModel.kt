@@ -4,9 +4,9 @@ import android.app.AlertDialog
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.animeteka.retrofit.common.Common
-import com.example.animeteka.retrofit.entities.RetrofitApiCallbackEntities
-import com.example.animeteka.retrofit.RetrofitServices
+import com.example.animeteka.data.retrofit.common.Common
+import com.example.animeteka.data.retrofit.entities.RetrofitApiCallbackEntities
+import com.example.animeteka.data.retrofit.RetrofitServices
 import dmax.dialog.SpotsDialog
 import retrofit2.Call
 import retrofit2.Callback
