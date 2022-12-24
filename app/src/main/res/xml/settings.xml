@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         android:title="@string/menu_settings_appearance">
         <ListPreference
@@ -28,5 +29,15 @@
             android:icon="@drawable/ic_language">
             <intent android:action="android.settings.LOCALE_SETTINGS" />
         </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/menu_settings_home_page">
+        <SeekBarPreference
+            android:title="@string/api_count_title"
+            android:icon="@drawable/ic_list_numbered"
+            android:key="api_titles_number"
+            android:max="20"
+            app:min="1"
+            android:defaultValue="10"/>
     </PreferenceCategory>
 </PreferenceScreen>

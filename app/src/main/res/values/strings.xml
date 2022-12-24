@@ -46,4 +46,6 @@
     <string name="search_null">Nothing found...</string>
     <string name="deleted_title">Deleted</string>
     <string name="cancel_button">Undo</string>
+    <string name="menu_settings_home_page">Home page settings</string>
+    <string name="api_count_title">Number of anime received</string>
 </resources>

@@ -22,8 +22,8 @@ class HomeViewModel : ViewModel() {
         retrofitService = Common.retrofitService
     }
 
-    fun getNewAnimeTitlesList(randomNumber: Int) {
-        retrofitService.getAnimeTitlesList(randomNumber.toString()).enqueue(object:
+    fun getNewAnimeTitlesList(randomNumber: Int, limitCount: Int) {
+        retrofitService.getAnimeTitlesList(randomNumber.toString(), limitCount.toString()).enqueue(object:
             Callback<RetrofitApiCallbackEntities> {
 
             override fun onFailure(call: Call<RetrofitApiCallbackEntities>, t: Throwable) {

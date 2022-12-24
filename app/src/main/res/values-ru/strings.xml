@@ -47,4 +47,6 @@
     <string name="search_null">Ничего не найдено...</string>
     <string name="deleted_title">Удален</string>
     <string name="cancel_button">Отмена</string>
+    <string name="menu_settings_home_page">Настройки главной страницы</string>
+    <string name="api_count_title">Количество получаемых аниме</string>
 </resources>

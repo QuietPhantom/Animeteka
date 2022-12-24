@@ -1,6 +1,7 @@
 package com.example.animeteka.presentation.fragments
 
 import android.app.AlertDialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animeteka.R
@@ -33,6 +35,8 @@ class HomeFragment : Fragment() {
     private var state: Parcelable? = null
     private lateinit var dialog: AlertDialog
     private val binding get() = _binding!!
+    private lateinit var sp: SharedPreferences
+    private var limitCount: Int = 10
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +48,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         if(savedInstanceState != null) state = savedInstanceState.getParcelable("stateHome")
+        sp = PreferenceManager.getDefaultSharedPreferences(context)
         return root
     }
 
@@ -77,15 +82,19 @@ class HomeFragment : Fragment() {
             dialog.dismiss()
         }
 
-        if (homeViewModel.livedata.value == null){
-            val random = (0..10000).random()
-            homeViewModel.getNewAnimeTitlesList(random)
-            dialog.show()
-        }
-
         updateButton.setOnClickListener{
             val random = (0..10000).random()
-            homeViewModel.getNewAnimeTitlesList(random)
+            homeViewModel.getNewAnimeTitlesList(random, limitCount)
+            dialog.show()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        limitCount = sp.getInt("api_titles_number", 10)
+        if (homeViewModel.livedata.value == null){
+            val random = (0..10000).random()
+            homeViewModel.getNewAnimeTitlesList(random, limitCount)
             dialog.show()
         }
     }
