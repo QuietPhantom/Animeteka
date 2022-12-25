@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.animeteka.R
 import com.example.animeteka.databinding.FragmentSlideshowBinding
 import com.example.animeteka.presentation.viewmodels.SlideshowViewModel
-import com.example.animeteka.data.retrofit.entities.RetrofitApiCallbackEntities
+import com.example.animeteka.data.retrofit.model.RetrofitApiCallbackEntities
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
 

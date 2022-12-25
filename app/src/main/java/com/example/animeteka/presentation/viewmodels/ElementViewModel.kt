@@ -1,6 +1,5 @@
 package com.example.animeteka.presentation.viewmodels
 
-import android.app.AlertDialog
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,9 +9,8 @@ import com.example.animeteka.businesslogic.entities.TitleEntity
 import com.example.animeteka.businesslogic.usecases.IUseCase
 import com.example.animeteka.data.Application
 import com.example.animeteka.data.retrofit.common.Common
-import com.example.animeteka.data.retrofit.entities.RetrofitApiCallbackEntity
-import com.example.animeteka.data.retrofit.RetrofitServices
-import dmax.dialog.SpotsDialog
+import com.example.animeteka.data.retrofit.model.RetrofitApiCallbackEntity
+import com.example.animeteka.data.retrofit.Interface.RetrofitServices
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

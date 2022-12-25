@@ -29,7 +29,7 @@
     <string name="button_title_added">✓</string>
     <string name="button_title_deleted">✖</string>
     <string name="title_added">Аниме добавлено</string>
-    <string name="title_deleted">Анмие удалено</string>
+    <string name="title_deleted">Аниме удалено</string>
     <string name="search_bar_hint">Поиск сохранённого аниме по имени...</string>
     <string name="search_bar_api_hint">Поиск аниме по ключевым словам...</string>
     <string name="search_bar_is_empty">Нечего искать...</string>
