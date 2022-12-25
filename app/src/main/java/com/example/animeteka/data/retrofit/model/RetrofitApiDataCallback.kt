@@ -1,4 +1,4 @@
-package com.example.animeteka.data.retrofit.entities
+package com.example.animeteka.data.retrofit.model
 
 data class RetrofitApiCallbackEntities(
     val data: List<RetrofitApiDataEntity>

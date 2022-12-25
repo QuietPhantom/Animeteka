@@ -1,4 +1,4 @@
-package com.example.animeteka.data.retrofit
+package com.example.animeteka.data.retrofit.`object`
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
