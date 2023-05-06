@@ -26,7 +26,7 @@ class ElementViewModel : ViewModel() {
         UseCase = application.getUseCase()
     }
 
-    fun getAnimeTitleById(titleId: Int, context: Context) {
+    fun getAnimeTitleById(titleId: Int) {
         retrofitService.getAnimeTitleById(titleId.toString()).enqueue(object:
             Callback<RetrofitApiCallbackEntity> {
             override fun onFailure(call: Call<RetrofitApiCallbackEntity>, t: Throwable) {

@@ -116,7 +116,7 @@ class ElementFragment : Fragment() {
                     }
                     dialog.dismiss()
                 }
-                elementViewModel.getAnimeTitleById(titleId, requireContext())
+                elementViewModel.getAnimeTitleById(titleId)
                 dialog.show()
                 DeleteTitle.isEnabled = false
             }
